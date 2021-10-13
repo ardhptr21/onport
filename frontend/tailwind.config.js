@@ -11,10 +11,17 @@ module.exports = {
         primary: "#101920",
         secondary: "#888888",
       },
+      boxShadow: {
+        button: "5px 5px 0px rgba(16, 25, 32, 0.8)",
+      },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      borderWidth: ["hover"],
+      fontWeight: ["hover"],
+      translate: ["group-hover"],
+    },
   },
   plugins: [],
 };
