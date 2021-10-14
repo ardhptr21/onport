@@ -21,6 +21,7 @@ module.exports = {
       borderWidth: ["hover"],
       fontWeight: ["hover"],
       translate: ["group-hover"],
+      backgroundImage: ["hover"],
     },
   },
   plugins: [],

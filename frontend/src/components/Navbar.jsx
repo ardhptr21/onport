@@ -10,8 +10,12 @@ const Navbar = () => {
         <img src={Logo} alt="ONPORT LOGO" className="w-40" />
       </Link>
       <div className="flex gap-6">
-        <ButtonFill>Login</ButtonFill>
-        <ButtonFill>Register</ButtonFill>
+        <Link to={getRoutesName("login").path}>
+          <ButtonFill>Login</ButtonFill>
+        </Link>
+        <Link to={getRoutesName("register").path}>
+          <ButtonFill>Register</ButtonFill>
+        </Link>
       </div>
     </nav>
   );

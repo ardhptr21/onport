@@ -6,10 +6,12 @@ function App() {
   return (
     <Router>
       <main>
-        <Navbar />
         <Switch>
-          {routes.map((route) => (
-            <Route path={route.path} exact={route.exact} component={route.component} />
+          {routes.map((route, index) => (
+            <Route path={route.path} exact={route.exact} key={index}>
+              {route.useNavbar && <Navbar />}
+              <route.component />
+            </Route>
           ))}
         </Switch>
       </main>

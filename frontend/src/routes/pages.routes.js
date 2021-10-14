@@ -9,6 +9,7 @@ const pagesRoutes = [
     path: "/",
     exact: true,
     component: Home,
+    useNavbar: true,
   },
 ];
 
