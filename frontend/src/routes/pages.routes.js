@@ -1,6 +1,9 @@
 import Home from "../pages/Home";
+import setTopUrl from "../utils/setTopUrl";
 
-const router = [
+const TOP_URL = "/";
+
+const pagesRoutes = [
   {
     name: "home",
     path: "/",
@@ -9,4 +12,4 @@ const router = [
   },
 ];
 
-export default router;
+export default setTopUrl(pagesRoutes, TOP_URL);
