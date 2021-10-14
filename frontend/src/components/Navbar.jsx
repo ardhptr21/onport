@@ -5,7 +5,7 @@ import getRoutesName from "../utils/getRouteName";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between px-10 py-8">
+    <nav className="flex items-center justify-between px-10 py-8 absolute top-0 w-full">
       <Link to={getRoutesName("home").path}>
         <img src={Logo} alt="ONPORT LOGO" className="w-40" />
       </Link>
