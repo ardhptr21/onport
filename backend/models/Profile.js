@@ -29,7 +29,7 @@ const profileSchema = new mongoose.Schema(
             required: [true, "Project url can't be empty"],
             type: String,
             validate: {
-              validator: Joi.string().uri({ allowRelative: false }).valid,
+              validator: (v) => !Joi.string().uri({ allowRelative: false }).validate(v).error,
               message: "Project url is not a valid url",
             },
           },

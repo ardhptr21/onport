@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       unique: true,
       validate: {
-        validator: Joi.string().email({ allowUnicode: false }).valid,
+        validator: (v) => !Joi.string().email({ allowUnicode: false }).validate(v).error,
         message: "Email is not valid a email",
       },
     },

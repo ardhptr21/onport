@@ -20,6 +20,9 @@ app.use(express.json());
 /**----------------------
  **      ROUTES
  *------------------------**/
+const userRoutes = require("./routes/user.routes");
+
+app.use("/user", userRoutes);
 app.get("/", (req, res) => res.send("Hello World"));
 
 /**----------------------
