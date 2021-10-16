@@ -1,0 +1,19 @@
+{
+  "name": "api-onport",
+  "version": "1.0.0",
+  "description": "Backend api for web application Onport",
+  "main": "index.js",
+  "author": "ardhptr21",
+  "license": "MIT",
+  "engines": {
+    "node": "^14"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.10"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
