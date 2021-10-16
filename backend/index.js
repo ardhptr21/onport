@@ -6,8 +6,10 @@ if (process.env.NODE_ENV !== "production") {
  **      REQUIRE LIBRARY
  *------------------------**/
 const express = require("express");
+const mongoose = require("mongoose");
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
 /**----------------------
  **      MIDDLEWARES
@@ -20,5 +22,15 @@ app.use(express.json());
  *------------------------**/
 app.get("/", (req, res) => res.send("Hello World"));
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+/**----------------------
+ **      CONNECT DB & LISTEN
+ *------------------------**/
+mongoose
+  .connect(process.env.DB_URI)
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT} and connected to database`));
+  })
+  .catch((err) => {
+    console.log("Server not running because database can't connected");
+    console.log(err);
+  });
