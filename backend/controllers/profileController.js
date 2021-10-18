@@ -65,7 +65,37 @@ module.exports.getSkills = async (req, res) => {
 };
 
 module.exports.addSkill = async (req, res) => {
-  res.send("ADD NEW SKILL");
+  // get the skill name from request body
+  const { skill } = req.body;
+
+  // get the user id from request params id value
+  const _userId = req.params.id;
+
+  // check if _userId is not valid object id
+  if (!isValidObjectId(_userId))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+
+  try {
+    const profile = await Profile.findOne({ _userId });
+
+    // cek if profile is null
+    if (!profile)
+      return res
+        .status(404)
+        .json({ status: 404, success: false, message: `Profile skills with user id ${_userId} is not found` });
+
+    // get the current all skills
+    const skills = profile.skills;
+    // push new skill into current all skills
+    skills.push(skill);
+
+    const updated = await Profile.findOneAndUpdate({ _userId }, { skills }, { new: true, runValidators: true });
+
+    res.status(200).json({ status: 200, success: true, data: updated.skills });
+  } catch (err) {
+    res.status(500).json({ status: 500, success: false, message: err.message });
+    console.log(err);
+  }
 };
 
 module.exports.updateSkill = async (req, res) => {
