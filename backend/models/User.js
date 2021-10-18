@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const Profile = require("./Profile");
 
 const userSchema = new mongoose.Schema(
   {
@@ -38,5 +39,14 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+
+userSchema.post("save", async (doc) => {
+  try {
+    const profile = await Profile.create({ _userId: doc._id });
+    console.log(`Success create "${doc.name}" Profile with id profile "${profile._id}"`);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = mongoose.model("User", userSchema);
