@@ -1,17 +1,12 @@
 const router = require("express").Router();
+const profileController = require("../controllers/profileController");
 
-router.get("/:id", () => {});
+router.route("/skills/:id").get(profileController.getSkills).patch(profileController.updateSkill);
+router.post("/skills", profileController.addSkill);
 
-router
-  .route("/:id/skills")
-  .get(() => {})
-  .post(() => {})
-  .patch(() => {});
+router.route("/projects/:id").get(profileController.getProjects).patch(profileController.updateProject);
+router.post("/projects", profileController.addProject);
 
-router
-  .route("/:id/projects")
-  .get(() => {})
-  .post(() => {})
-  .patch(() => {});
+router.get("/:id", profileController.getAll);
 
 module.exports = router;
