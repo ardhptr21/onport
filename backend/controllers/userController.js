@@ -43,6 +43,7 @@ module.exports.get = async (req, res) => {
   }
 };
 module.exports.add = async (req, res) => {
+  // get the name, email, and password value from the request body
   const { name, email, password } = req.body;
 
   try {
@@ -50,11 +51,30 @@ module.exports.add = async (req, res) => {
     res.status(200).json({ status: 200, success: true, data: user });
   } catch (err) {
     const error = parseError(err);
-    res.status(400).json({ status: 400, success: false, error });
+    res.status(500).json({ status: 500, success: false, error });
     console.log(err);
   }
 };
 
 module.exports.update = async (req, res) => {
-  res.send("UPDATE");
+  // get the name, position, and about value from request body
+  const { name, position, about } = req.body;
+
+  // get the id from the params
+  const _id = req.params.id;
+
+  // check if the id is valid object id
+  if (!isValidObjectId(_id))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_id} is not valid object id` });
+
+  try {
+    const user = await User.findByIdAndUpdate(_id, { name, position, about }, { new: true, runValidators: true });
+
+    // deleted user password, before send back the user data
+    delete { ...user }._doc.password;
+    res.status(200).json({ status: 200, success: true, data: user });
+  } catch (err) {
+    const error = parseError(err);
+    res.status(500).json({ status: 500, success: false, error });
+  }
 };
