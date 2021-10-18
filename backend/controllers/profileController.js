@@ -15,7 +15,7 @@ const parseError = ({ message, errors }) => {
 };
 
 module.exports.getAll = async (req, res) => {
-  // get userId for the params id
+  // get userId from the params id value
   const _userId = req.params.id;
 
   // check if _userId is not valid object id
@@ -23,7 +23,7 @@ module.exports.getAll = async (req, res) => {
     return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
 
   try {
-    const profile = await Profile.findOne({ _userId: _userId });
+    const profile = await Profile.findOne({ _userId });
 
     // check if profile is null
     if (!profile)
@@ -33,9 +33,7 @@ module.exports.getAll = async (req, res) => {
 
     res.status(200).json({ status: 200, success: true, data: profile });
   } catch (err) {
-    const error = parseError(err);
-    res.status(500).json({ status: 500, success: false, error });
-    console.log(err);
+    res.status(500).json({ status: 500, success: false, message: err.message });
   }
 };
 
@@ -43,11 +41,33 @@ module.exports.getAll = async (req, res) => {
  *    SKILLS CONTROLLER
  *------------------------**/
 module.exports.getSkills = async (req, res) => {
-  res.send("GET ALL SKILLS");
+  // get user id from the params id value
+  const _userId = req.params.id;
+
+  // check if _userId is not valid id
+  if (!isValidObjectId(_userId))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+
+  try {
+    const profile = await Profile.findOne({ _userId });
+
+    // check if profile is null
+    if (!profile)
+      return res
+        .status(404)
+        .json({ status: 404, success: false, message: `Profile skills with user id ${_userId} is not found` });
+
+    res.status(200).json({ status: 200, success: true, data: profile.skills });
+  } catch (err) {
+    res.status(500).json({ status: 500, success: false, message: err.message });
+    console.log(err);
+  }
 };
+
 module.exports.addSkill = async (req, res) => {
   res.send("ADD NEW SKILL");
 };
+
 module.exports.updateSkill = async (req, res) => {
   res.send("UPDATE SKILL");
 };
