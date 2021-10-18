@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { v4: uuid4 } = require("uuid");
 
 const profileSchema = new mongoose.Schema(
   {
@@ -9,12 +10,31 @@ const profileSchema = new mongoose.Schema(
     },
     skills: {
       required: false,
-      type: [String],
+      type: [
+        {
+          _id: false,
+          id: {
+            required: true,
+            type: String,
+            default: uuid4(),
+          },
+          name: {
+            required: true,
+            type: String,
+          },
+        },
+      ],
     },
     projects: {
       required: false,
       type: [
         {
+          _id: false,
+          id: {
+            required: true,
+            type: String,
+            default: uuid4(),
+          },
           title: {
             required: [true, "Project title can't be empty"],
             type: String,

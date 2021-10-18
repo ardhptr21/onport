@@ -1,5 +1,6 @@
 const { isValidObjectId } = require("mongoose");
 const Profile = require("../models/Profile");
+const { v4: uuid4 } = require("uuid");
 
 const parseError = ({ message, errors }) => {
   const parse = {};
@@ -87,7 +88,8 @@ module.exports.addSkill = async (req, res) => {
     // get the current all skills
     const skills = profile.skills;
     // push new skill into current all skills
-    skills.push(skill);
+    const newSkill = { id: uuid4(), name: skill };
+    skills.push(newSkill);
 
     const updated = await Profile.findOneAndUpdate({ _userId }, { skills }, { new: true, runValidators: true });
 
