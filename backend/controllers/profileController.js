@@ -134,7 +134,7 @@ module.exports.getProjects = async (req, res) => {
 };
 
 module.exports.addProject = async (req, res) => {
-  // get the skill name from request body
+  // get the project name, description, url, and id from request body
   const { title, description, url } = req.body;
 
   // get the user id from request params id value
@@ -145,7 +145,7 @@ module.exports.addProject = async (req, res) => {
     return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
 
   try {
-    // push the new skill
+    // push the new project
     const profile = await Profile.findOneAndUpdate(
       { _userId },
       { $push: { projects: { title, description, url, id: uuid4() } } },
@@ -159,8 +159,34 @@ module.exports.addProject = async (req, res) => {
     console.log(err);
   }
 };
+
 module.exports.updateProject = async (req, res) => {
-  res.send("UPDATE PROJECT");
+  // get the new prject title, description, url and the skill id from request body
+  const { title, description, url, id } = req.body;
+
+  // get the user id from request params id value
+  const _userId = req.params.id;
+
+  try {
+    // find one project and update into new value
+    const updated = await Profile.findOneAndUpdate(
+      { _userId, "projects.id": id },
+      {
+        $set: {
+          "projects.$.title": title,
+          "projects.$.description": description,
+          "projects.$.url": url,
+        },
+      },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({ status: 200, success: true, data: updated.projects });
+  } catch (err) {
+    const error = parseErrorUpdate(err);
+    res.status(500).json({ status: 500, success: false, error });
+    console.log(err);
+  }
 };
 
 /**----------------------
