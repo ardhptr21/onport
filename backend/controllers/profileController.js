@@ -73,7 +73,7 @@ module.exports.addSkill = async (req, res) => {
 
     res.status(200).json({ status: 200, success: true, data: profile.skills });
   } catch (err) {
-    const error = parseErrorAdd(err, "skills");
+    const error = parseErrorAdd(err);
     res.status(500).json({ status: 500, success: false, error });
     console.log(err);
   }
@@ -132,8 +132,32 @@ module.exports.getProjects = async (req, res) => {
     console.log(err);
   }
 };
+
 module.exports.addProject = async (req, res) => {
-  res.send("ADD NEW PROJECT");
+  // get the skill name from request body
+  const { title, description, url } = req.body;
+
+  // get the user id from request params id value
+  const _userId = req.params.id;
+
+  // check if _userId is not valid object id
+  if (!isValidObjectId(_userId))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+
+  try {
+    // push the new skill
+    const profile = await Profile.findOneAndUpdate(
+      { _userId },
+      { $push: { projects: { title, description, url, id: uuid4() } } },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({ status: 200, success: true, data: profile.projects });
+  } catch (err) {
+    const error = parseErrorAdd(err);
+    res.status(500).json({ status: 500, success: false, error });
+    console.log(err);
+  }
 };
 module.exports.updateProject = async (req, res) => {
   res.send("UPDATE PROJECT");

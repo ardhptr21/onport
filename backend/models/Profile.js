@@ -40,7 +40,7 @@ const profileSchema = new mongoose.Schema(
           description: {
             required: [true, "Project description can't be empty"],
             type: String,
-            maxlength: [100, "The length of project description can't be less than 100 character"],
+            minlength: [50, "The length of project description can't be less than 50 character"],
           },
           url: {
             required: [true, "Project url can't be empty"],
