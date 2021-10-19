@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const { v4: uuid4 } = require("uuid");
 
 const profileSchema = new mongoose.Schema(
   {
@@ -16,10 +15,9 @@ const profileSchema = new mongoose.Schema(
           id: {
             required: true,
             type: String,
-            default: uuid4(),
           },
           name: {
-            required: true,
+            required: [true, "Skill name can't be empty"],
             type: String,
           },
         },
@@ -33,7 +31,6 @@ const profileSchema = new mongoose.Schema(
           id: {
             required: true,
             type: String,
-            default: uuid4(),
           },
           title: {
             required: [true, "Project title can't be empty"],
