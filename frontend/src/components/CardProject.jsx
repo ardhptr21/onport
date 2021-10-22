@@ -5,12 +5,21 @@ const CardProject = ({ title, description, url }) => {
                 flex-col
                 justify-center
                 p-6
-                border-2
-                border-primary"
+                group
+                bg-primary
+                hover:bg-transparent
+                hover:border-2
+                hover:border-primary
+                duration-200 select-none"
     >
-      <h3 className="text-3xl font-bold">{title}</h3>
+      <h3 className="text-3xl text-white group-hover:text-primary font-bold">{title}</h3>
       <p className="my-6 text-secondary">{description}</p>
-      <a href={url} className="group w-max cursor-pointer hover:underline">
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        className="group w-max cursor-pointer text-white group-hover:text-primary hover:underline"
+      >
         Let's see{" "}
         <span>
           <svg

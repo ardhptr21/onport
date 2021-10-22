@@ -3,7 +3,7 @@ const SkillItem = ({ name }) => {
     <div
       className="px-4 
                 py-2 
-                w-36 text-center 
+                w-full text-center 
                 bg-primary 
                 text-secondary 
                 duration-200 
