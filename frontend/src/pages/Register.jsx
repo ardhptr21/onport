@@ -10,38 +10,27 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isConfirm, setIsConfirm] = useState(false);
+  const [password2, setPassword2] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [error, setError] = useState({});
 
   const axios = useAxios();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError({});
 
-    if (!isConfirm) {
+    if (password !== password2 && password !== "") {
       setError({ ...error, confirmMessage: "The confirm password does not match" });
       return;
     }
 
-    axios
-      .post("/user", {
-        name,
-        email,
-        password,
-      })
-      .then(() => {
-        setRedirect(true);
-      })
-      .catch(({ response }) => {
-        setError(response.data.error);
-      });
-  };
-
-  const handleConfirm = (e) => {
-    if (e.target.value === password) return setIsConfirm(true);
-    setIsConfirm(false);
+    try {
+      await axios.post("/user", { name, email, password });
+      setRedirect(true);
+    } catch ({ response }) {
+      setError(response.data.error);
+    }
   };
 
   if (redirect) return <Redirect to={getRouteName("login").path} />;
@@ -49,7 +38,7 @@ const Register = () => {
   return (
     <section className="h-screen flex flex-col justify-center items-center">
       <img src={Logo} alt="Onport Logo" className="w-36 mb-6" />
-      <form className="w-96 bg-primary p-10" onSubmit={handleSubmit}>
+      <form className="w-96 bg-primary p-10" onSubmit={handleSubmit} autoComplete="off" spellCheck="false">
         <h1 className="text-white text-4xl mb-6 font-bold uppercase font-encode-sans text-center">Please Register</h1>
         <Input
           type="text"
@@ -77,7 +66,7 @@ const Register = () => {
           placeholder="Confirm Password"
           name="password2"
           error={error.confirmMessage}
-          onChange={handleConfirm}
+          onChange={(e) => setPassword2(e.target.value)}
         />
         <ButtonForm type="submit">Register</ButtonForm>
         <Link to={getRouteName("login").path} className="text-white text-xs hover:underline">
