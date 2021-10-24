@@ -45,7 +45,7 @@ module.exports.add = async (req, res) => {
 
   try {
     const user = await User.create({ name, email, password });
-    res.status(200).json({ status: 200, success: true, data: user });
+    res.status(200).json({ status: 200, success: true, data: { id: user._id } });
   } catch (err) {
     const error = parseError(err);
     res.status(500).json({ status: 500, success: false, error });
@@ -61,7 +61,7 @@ module.exports.add = async (req, res) => {
  */
 module.exports.update = async (req, res) => {
   // get the name, position, and about value from request body
-  const { name, position, about } = req.body;
+  const { name, position, about, photo } = req.body;
 
   // get the id from the params
   const _id = req.params.id;
@@ -71,7 +71,11 @@ module.exports.update = async (req, res) => {
     return res.status(400).json({ status: 400, success: false, message: `Id ${_id} is not valid object id` });
 
   try {
-    const user = await User.findByIdAndUpdate(_id, { name, position, about }, { new: true, runValidators: true });
+    const user = await User.findByIdAndUpdate(
+      _id,
+      { name, position, about, photo },
+      { new: true, runValidators: true }
+    );
 
     // deleted user password, before send back the user data
     delete { ...user }._doc.password;

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const bcrypt = require("bcrypt");
 const Profile = require("./Profile");
 
 const userSchema = new mongoose.Schema(
@@ -22,6 +23,14 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password can't be empty"],
       type: String,
     },
+    photo: {
+      required: false,
+      type: String,
+      validate: {
+        validator: (v) => !Joi.string().uri({ allowRelative: false }).validate(v).error,
+        message: "Photo url is not valid url",
+      },
+    },
     position: {
       required: false,
       type: String,
@@ -39,6 +48,15 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+
+userSchema.pre("save", async function (next) {
+  try {
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 userSchema.post("save", async (doc) => {
   try {
