@@ -27,7 +27,7 @@ const User = () => {
         user.position && setPosition(user.position);
         user.about && setPosition(user.about);
       } catch ({ response }) {
-        console.log(response.data.error.message);
+        console.log(response.data.message);
       }
     })();
   }, [axios]);
