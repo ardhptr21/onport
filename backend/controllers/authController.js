@@ -47,7 +47,9 @@ module.exports.login = async (req, res) => {
         .json({ status: 400, success: false, message: "Can't find user with that email or password" });
 
     // create JWT token if all find
-    const TOKEN = await jwt.sign({ userId: user._id }, process.env.SECRET_JWT_KEY);
+    const TOKEN = await jwt.sign({ userId: user._id }, process.env.SECRET_JWT_KEY, {
+      expiresIn: "3d",
+    });
 
     // send back the JWT TOKEN
     res.status(200).json({ status: 200, success: true, token: TOKEN });
@@ -63,4 +65,15 @@ module.exports.login = async (req, res) => {
  * @param {request} req
  * @param {response} res
  */
-module.exports.verify = (req, res) => {};
+module.exports.verify = (req, res) => {
+  const TOKEN = req.header("Authorization");
+  if (!TOKEN) return res.status(401).json({ status: 401, verify: false, message: "Unauthorized" });
+
+  try {
+    const result = jwt.verify(TOKEN, process.env.SECRET_JWT_KEY);
+    console.log(result);
+    res.status(200).json({ status: 200, verify: true });
+  } catch (err) {
+    res.status(401).json({ status: 401, verify: false, message: err.message });
+  }
+};
