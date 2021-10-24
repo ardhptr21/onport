@@ -1,17 +1,18 @@
 const router = require("express").Router();
 const profileController = require("../controllers/profileController");
+const { isAuth } = require("../middlewares/authMiddleware");
 
 router
   .route("/skills/:id")
   .get(profileController.getSkills)
-  .patch(profileController.updateSkill)
-  .post(profileController.addSkill);
+  .patch(isAuth, profileController.updateSkill)
+  .post(isAuth, profileController.addSkill);
 
 router
   .route("/projects/:id")
   .get(profileController.getProjects)
-  .patch(profileController.updateProject)
-  .post(profileController.addProject);
+  .patch(isAuth, profileController.updateProject)
+  .post(isAuth, profileController.addProject);
 
 router.get("/:id", profileController.getAll);
 
