@@ -1,7 +1,14 @@
+const { request, response } = require("express");
 const { isValidObjectId } = require("mongoose");
 const Profile = require("../models/Profile");
 const { v4: uuid4 } = require("uuid");
 
+/**
+ *  Handle request to get all profile with spesific user
+ *
+ * @param {request} req
+ * @param {response} res
+ */
 module.exports.getAll = async (req, res) => {
   // get userId from the params id value
   const _userId = req.params.id;
@@ -28,6 +35,13 @@ module.exports.getAll = async (req, res) => {
 /**----------------------
  *    SKILLS CONTROLLER
  *------------------------**/
+
+/**
+ * Handle request to get skills in profile with spesific user
+ *
+ * @param {request} req
+ * @param {response} res
+ */
 module.exports.getSkills = async (req, res) => {
   // get user id from the params id value
   const _userId = req.params.id;
@@ -52,6 +66,12 @@ module.exports.getSkills = async (req, res) => {
   }
 };
 
+/**
+ * Handle request to add one skill in spesific user profile
+ *
+ * @param {request} req
+ * @param {response} res
+ */
 module.exports.addSkill = async (req, res) => {
   // get the skill name from request body
   const { skill } = req.body;
@@ -79,6 +99,12 @@ module.exports.addSkill = async (req, res) => {
   }
 };
 
+/**
+ * Handle request to update one skill in spesific user profile
+ *
+ * @param {request} req
+ * @param {response} res
+ */
 module.exports.updateSkill = async (req, res) => {
   // get the new skill name and the skill id from request body
   const { skill, id } = req.body;
@@ -109,6 +135,13 @@ module.exports.updateSkill = async (req, res) => {
 /**----------------------
  *    PROJECTS CONTROLLER
  *------------------------**/
+
+/**
+ * Handle request to get only projects in spesific user profile
+ *
+ * @param {request} req
+ * @param {response} res
+ */
 module.exports.getProjects = async (req, res) => {
   // get user id from the params id value
   const _userId = req.params.id;
@@ -133,6 +166,12 @@ module.exports.getProjects = async (req, res) => {
   }
 };
 
+/**
+ * Handle request to add one project in spesific user profile
+ *
+ * @param {request} req
+ * @param {response} res
+ */
 module.exports.addProject = async (req, res) => {
   // get the project name, description, url, and id from request body
   const { title, description, url } = req.body;
@@ -160,6 +199,12 @@ module.exports.addProject = async (req, res) => {
   }
 };
 
+/**
+ * Handle request to update one project in spesific user profile
+ *
+ * @param {request} req
+ * @param {response} res
+ */
 module.exports.updateProject = async (req, res) => {
   // get the new prject title, description, url and the skill id from request body
   const { title, description, url, id } = req.body;
