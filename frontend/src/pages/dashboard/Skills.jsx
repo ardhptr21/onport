@@ -2,8 +2,30 @@ import Sidebar from "../../components/Sidebar";
 import SkillItemDashboard from "../../components/SkillItemDashboard";
 import ButtonAdd from "../../components/ButtonAdd";
 import DashboardTitle from "../../components/DashboardTitle";
+import { useEffect, useState } from "react";
+import AlertDanger from "../../components/AlertDanger";
+import useAxios from "../../hooks/useAxios";
 
 const Skills = () => {
+  const [skills, setSkills] = useState([]);
+  const [skill, setSkill] = useState("");
+  const axios = useAxios();
+
+  useEffect(() => {
+    const ac = new AbortController();
+    (async () => {
+      try {
+        const {
+          data: { data: skills },
+        } = await axios.get("/profile/skills/6174cccaff5f1435ef7b1d39", { signal: ac.signal });
+        setSkills(skills);
+      } catch ({ response }) {
+        response && console.error(response.data.message);
+      }
+    })();
+    return () => ac.abort();
+  }, [axios]);
+
   return (
     <section className="flex">
       <Sidebar />
@@ -20,14 +42,22 @@ const Skills = () => {
         <div className="bg-primary shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg md:max-w-2xl">
           <div className="mb-4">
             <form className="flex mt-4">
-              <input className="w-full py-2 px-3 mr-4 text-black outline-none" placeholder="Add Skills" />
+              <input
+                className="w-full py-2 px-3 mr-4 text-black outline-none"
+                placeholder="Add Skills"
+                value={skill}
+                onChange={(e) => setSkill(e.target.value)}
+                autoFocus
+              />
               <ButtonAdd />
             </form>
           </div>
 
-          <SkillItemDashboard name="HTML" skillId="abcde-edbca-akkhf-asdj" />
-          <SkillItemDashboard name="Javascript" skillId="dasfjl-akjksd-jkda-jdk" />
-          <SkillItemDashboard name="NodeJS" skillId="akjdf-akdjkf-ahdkf-skdjf" />
+          {!skills.length && <AlertDanger>You do not have any skill yet, please add at least one skill</AlertDanger>}
+
+          {skills.map((s) => (
+            <SkillItemDashboard name={s.name} skillId={s.id} key={s.id} />
+          ))}
         </div>
       </div>
     </section>

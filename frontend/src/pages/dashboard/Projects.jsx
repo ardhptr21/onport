@@ -1,10 +1,32 @@
+import { useEffect, useState } from "react";
+import AlertDanger from "../../components/AlertDanger";
 import ButtonAdd from "../../components/ButtonAdd";
 import DashboardTitle from "../../components/DashboardTitle";
 import RowTableProject from "../../components/RowTableProject";
 import Sidebar from "../../components/Sidebar";
 import Th from "../../components/Th";
+import useAxios from "../../hooks/useAxios";
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
+  const axios = useAxios();
+
+  useEffect(() => {
+    const ac = new AbortController();
+    (async () => {
+      try {
+        const {
+          data: { data: projects },
+        } = await axios.get("/profile/projects/6174cccaff5f1435ef7b1d39", { signal: ac.signal });
+
+        setProjects(projects);
+      } catch ({ response }) {
+        response && console.error(response.data.message);
+      }
+    })();
+    return () => ac.abort();
+  }, [axios]);
+
   return (
     <section className="flex">
       <Sidebar />
@@ -22,37 +44,41 @@ const Projects = () => {
 
         <ButtonAdd text="Add New Project" />
 
-        <table className="border-collapse w-full mt-3">
-          <thead>
-            <tr>
-              <Th>No</Th>
-              <Th>Title</Th>
-              <Th>Description</Th>
-              <Th>URL</Th>
-              <Th>Actions</Th>
-            </tr>
-          </thead>
-          <tbody>
-            <RowTableProject
-              no={1}
-              title="Laravelia"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
-              url="https://google.com"
-            />
-            <RowTableProject
-              no={2}
-              title="OnPort"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
-              url="https://google.com"
-            />
-            <RowTableProject
-              no={3}
-              title="Candaan API 😂"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
-              url="https://google.com"
-            />
-          </tbody>
-        </table>
+        {!projects.length ? (
+          <AlertDanger>You do not have any project, please add at least one project</AlertDanger>
+        ) : (
+          <table className="border-collapse w-full mt-3">
+            <thead>
+              <tr>
+                <Th>No</Th>
+                <Th>Title</Th>
+                <Th>Description</Th>
+                <Th>URL</Th>
+                <Th>Actions</Th>
+              </tr>
+            </thead>
+            <tbody>
+              <RowTableProject
+                no={1}
+                title="Laravelia"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
+                url="https://google.com"
+              />
+              <RowTableProject
+                no={2}
+                title="OnPort"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
+                url="https://google.com"
+              />
+              <RowTableProject
+                no={3}
+                title="Candaan API 😂"
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
+                url="https://google.com"
+              />
+            </tbody>
+          </table>
+        )}
       </div>
     </section>
   );
