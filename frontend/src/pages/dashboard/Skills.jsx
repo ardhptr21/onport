@@ -6,10 +6,15 @@ import { useEffect, useState } from "react";
 import AlertDanger from "../../components/AlertDanger";
 import useAxios from "../../hooks/useAxios";
 import getUserId from "../../utils/getUserId";
+import Cookies from "js-cookie";
+import ButtonCancel from "../../components/ButtonCancel";
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
   const [skill, setSkill] = useState("");
+  const [error, setError] = useState({});
+  const [updateId, setUpdateId] = useState(null);
+
   const axios = useAxios();
 
   useEffect(() => {
@@ -25,7 +30,55 @@ const Skills = () => {
       }
     })();
     return () => ac.abort();
-  }, [axios]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!updateId) {
+      handleAdd();
+    } else {
+      handleUpdate();
+    }
+  };
+
+  const handleAdd = async () => {
+    try {
+      const {
+        data: { data: skills },
+      } = await axios.post(
+        `/profile/skills/${getUserId()}`,
+        { skill },
+        { headers: { Authorization: Cookies.get("token") } }
+      );
+
+      setSkills(skills);
+      setError({});
+    } catch ({ response }) {
+      response.data.error && setError(response.data.error);
+    }
+
+    setSkill("");
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const {
+        data: { data: skills },
+      } = await axios.patch(
+        `/profile/skills/${getUserId()}`,
+        { skill, id: updateId },
+        { headers: { Authorization: Cookies.get("token") } }
+      );
+      setUpdateId(null);
+      setSkills(skills);
+      setSkill("");
+    } catch ({ response }) {
+      response.data.error && setError(response.data.error);
+    }
+  };
 
   return (
     <section className="flex">
@@ -42,22 +95,41 @@ const Skills = () => {
         </DashboardTitle>
         <div className="bg-primary shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg md:max-w-2xl">
           <div className="mb-4">
-            <form className="flex mt-4">
+            <p className="text-center text-blue-500 uppercase text-lg font-bold">{updateId ? "Update" : "Add"}</p>
+            <form className="flex mt-4 gap-2" onSubmit={handleSubmit}>
               <input
-                className="w-full py-2 px-3 mr-4 text-black outline-none"
-                placeholder="Add Skills"
+                className="w-full py-2 px-3 text-black outline-none"
+                placeholder={`${updateId ? "Update" : "Add"} Skill`}
                 value={skill}
                 onChange={(e) => setSkill(e.target.value)}
+                onFocus={() => setError({})}
                 autoFocus
               />
               <ButtonAdd />
+              {updateId && (
+                <ButtonCancel
+                  onClick={() => {
+                    setUpdateId(null);
+                    setSkill("");
+                  }}
+                />
+              )}
             </form>
+            <p className="text-red-500 mt-2">{error.name}</p>
           </div>
 
           {!skills.length && <AlertDanger>You do not have any skill yet, please add at least one skill</AlertDanger>}
 
           {skills.map((s) => (
-            <SkillItemDashboard name={s.name} skillId={s.id} key={s.id} />
+            <SkillItemDashboard
+              name={s.name}
+              skillId={s.id}
+              key={s.id}
+              clickEdit={() => {
+                setUpdateId(s.id);
+                setSkill(s.name);
+              }}
+            />
           ))}
         </div>
       </div>
