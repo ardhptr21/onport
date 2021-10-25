@@ -2,6 +2,7 @@ import LogoWhite from "../assets/image/LogoWhite.svg";
 import getActiveURL from "../utils/getActiveURL";
 import getRouteName from "../utils/getRouteName";
 import { Link } from "react-router-dom";
+import getUserId from "../utils/getUserId";
 
 const Sidebar = () => {
   return (
@@ -45,7 +46,7 @@ const Sidebar = () => {
             </svg>
             <span className="mx-4 font-medium">Projects</span>
           </Link>
-          <Link className="sidebar-link" to={window.location.pathname}>
+          <Link className="sidebar-link" to={getRouteName("portfolio", { id: getUserId() }).path}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
