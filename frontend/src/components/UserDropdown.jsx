@@ -4,7 +4,7 @@ const UserDropdown = ({ on }) => {
   return (
     <div
       className={
-        "right-0 top-11 absolute shadow-md border-2 group w-52 flex flex-col items-start justify-center transform origin-top-right duration-200" +
+        "right-0 top-11 absolute shadow-md border-2 group w-52 flex flex-col items-start justify-center transform origin-top-right duration-200 bg-white" +
         (!on ? " scale-0" : "")
       }
     >

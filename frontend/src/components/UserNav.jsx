@@ -7,7 +7,7 @@ const UserNav = ({ photo, name }) => {
 
   return (
     <div
-      className="flex justify-center items-center gap-2 relative cursor-pointer select-none"
+      className="md:flex justify-center items-center gap-2 relative cursor-pointer select-none hidden"
       onClick={() => setIsDropdown(!isDropdown)}
     >
       <img src={photo || SquareLogo} className="w-10 rounded-full border-2 border-primary" alt={name} />

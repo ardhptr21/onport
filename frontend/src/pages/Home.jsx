@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <section className="px-10 font-encode-sans flex flex-col justify-center items-center h-screen">
-      <h1 className="text-8xl font-extrabold leading-tight mb-7">
+      <h1 className="lg:text-8xl md:text-7xl sm:text-6xl text-5xl text-center font-extrabold leading-tight mb-7">
         Build Your Own <br /> Online Portfolio
       </h1>
       <ButtonOutline>LET'S MAKE NOW</ButtonOutline>
