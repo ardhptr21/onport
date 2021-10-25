@@ -2,7 +2,9 @@ const SkillItem = ({ name }) => {
   return (
     <div
       className="px-4 
-                py-2 
+                py-2
+                sm:text-base
+                text-sm
                 w-full text-center 
                 bg-primary 
                 text-secondary 

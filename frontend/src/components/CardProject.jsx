@@ -12,7 +12,7 @@ const CardProject = ({ title, description, url }) => {
                 hover:border-primary
                 duration-200 select-none"
     >
-      <h3 className="text-3xl text-white group-hover:text-primary font-bold">{title}</h3>
+      <h3 className="md:text-3xl text-2xl text-white group-hover:text-primary font-bold">{title}</h3>
       <p className="my-6 text-secondary">{description}</p>
       <a
         href={url}

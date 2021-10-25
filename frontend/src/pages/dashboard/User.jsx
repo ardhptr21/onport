@@ -126,7 +126,11 @@ const User = () => {
             />
           </svg>
         </DashboardTitle>
-        <img src={SquareLogo} alt="people profile" className="rounded-full w-52 border-4 border-primary object-cover" />
+        <img
+          src={preview || photo || SquareLogo}
+          alt="people profile"
+          className="rounded-full w-52 border-4 border-primary object-cover"
+        />
         <form className="w-full" autoComplete="off" onSubmit={handleSubmit}>
           <InputFile text="Change Image" name="photo" onChange={handleChangePreview} />
           <div className="w-full md:w-3/4 m-auto bg-primary p-10">
