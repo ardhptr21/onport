@@ -97,7 +97,7 @@ const Skills = () => {
   return (
     <section className="flex">
       <Sidebar />
-      <div className="flex justify-center items-center flex-col w-full">
+      <div className="flex justify-center py-10 px-5 items-center flex-col w-full">
         <DashboardTitle text="Skills">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 inline" viewBox="0 0 20 20" fill="currentColor">
             <path
@@ -107,7 +107,7 @@ const Skills = () => {
             />
           </svg>
         </DashboardTitle>
-        <div className="bg-primary shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg md:max-w-2xl">
+        <div className="bg-primary shadow p-6 m-4 w-full md:w-3/4">
           <div className="mb-4">
             <p className="text-center text-blue-500 uppercase text-lg font-bold">{updateId ? "Update" : "Add"}</p>
             <form className="flex mt-4 gap-2" onSubmit={handleSubmit}>
