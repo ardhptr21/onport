@@ -7,6 +7,7 @@ import Textarea from "../../components/Textarea";
 import useAxios from "../../hooks/useAxios";
 
 import SquareLogo from "../../assets/image/SquareLogo.svg";
+import getUserId from "../../utils/getUserId";
 
 const User = () => {
   const axios = useAxios();
@@ -16,20 +17,24 @@ const User = () => {
   const [about, setAbout] = useState("");
 
   useEffect(() => {
+    const ac = new AbortController();
+
     (async () => {
       try {
         const {
           data: { data: user },
-        } = await axios.get("/user/6174cccaff5f1435ef7b1d39");
+        } = await axios.get(`/user/${getUserId()}`, { signal: ac.signal });
 
         user.photo && setPhoto(user.photo);
         user.name && setName(user.name);
         user.position && setPosition(user.position);
         user.about && setPosition(user.about);
-      } catch ({ response }) {
-        console.log(response.data.message);
+      } catch (err) {
+        !ac.signal.aborted && console.error(err.message);
       }
     })();
+
+    return () => ac.abort();
   }, [axios]);
 
   return (

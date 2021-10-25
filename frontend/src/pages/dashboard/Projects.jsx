@@ -6,6 +6,7 @@ import RowTableProject from "../../components/RowTableProject";
 import Sidebar from "../../components/Sidebar";
 import Th from "../../components/Th";
 import useAxios from "../../hooks/useAxios";
+import getUserId from "../../utils/getUserId";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -17,11 +18,11 @@ const Projects = () => {
       try {
         const {
           data: { data: projects },
-        } = await axios.get("/profile/projects/6174cccaff5f1435ef7b1d39", { signal: ac.signal });
+        } = await axios.get(`/profile/projects/${getUserId()}`, { signal: ac.signal });
 
         setProjects(projects);
-      } catch ({ response }) {
-        response && console.error(response.data.message);
+      } catch (err) {
+        !ac.signal.aborted && console.error(err.message);
       }
     })();
     return () => ac.abort();

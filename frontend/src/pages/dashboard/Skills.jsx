@@ -5,6 +5,7 @@ import DashboardTitle from "../../components/DashboardTitle";
 import { useEffect, useState } from "react";
 import AlertDanger from "../../components/AlertDanger";
 import useAxios from "../../hooks/useAxios";
+import getUserId from "../../utils/getUserId";
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -17,10 +18,10 @@ const Skills = () => {
       try {
         const {
           data: { data: skills },
-        } = await axios.get("/profile/skills/6174cccaff5f1435ef7b1d39", { signal: ac.signal });
+        } = await axios.get(`/profile/skills/${getUserId()}`, { signal: ac.signal });
         setSkills(skills);
-      } catch ({ response }) {
-        response && console.error(response.data.message);
+      } catch (err) {
+        !ac.signal.aborted && console.error(err.message);
       }
     })();
     return () => ac.abort();
