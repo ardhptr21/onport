@@ -74,6 +74,7 @@ const Projects = () => {
       response.data.error && setError(response.data.error);
     }
   };
+
   const handleUpdate = async () => {
     try {
       const {
@@ -93,6 +94,20 @@ const Projects = () => {
       setToggleForm(false);
     } catch ({ response }) {
       response.data.error && setError(response.data.error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const {
+        data: { data: projects },
+      } = await axios.delete(`/profile/projects/${getUserId()}`, {
+        data: { id },
+        headers: { Authorization: Cookies.get("token") },
+      });
+      setProjects(projects);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -192,6 +207,9 @@ const Projects = () => {
                         setUrl(project.url);
                         setToggleForm(true);
                       }}
+                      clickDelete={() =>
+                        window.confirm("Are you sure want to delete this project?") && handleDelete(project.id)
+                      }
                     />
                   ))}
                 </tbody>

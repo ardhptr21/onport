@@ -80,6 +80,20 @@ const Skills = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const {
+        data: { data: skills },
+      } = await axios.delete(`/profile/skills/${getUserId()}`, {
+        data: { id },
+        headers: { Authorization: Cookies.get("token") },
+      });
+      setSkills(skills);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <section className="flex">
       <Sidebar />
@@ -129,6 +143,7 @@ const Skills = () => {
                 setUpdateId(s.id);
                 setSkill(s.name);
               }}
+              clickDelete={() => window.confirm("Are you sure want to delete this?") && handleDelete(s.id)}
             />
           ))}
         </div>
