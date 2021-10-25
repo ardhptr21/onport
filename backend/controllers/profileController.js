@@ -112,6 +112,10 @@ module.exports.updateSkill = async (req, res) => {
   // get the user id from request params id value
   const _userId = req.params.id;
 
+  // check if _userId is not valid object id
+  if (!isValidObjectId(_userId))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+
   try {
     // find one skill and update into new value
     const updated = await Profile.findOneAndUpdate(
@@ -128,6 +132,34 @@ module.exports.updateSkill = async (req, res) => {
   } catch (err) {
     const error = parseErrorUpdate(err);
     res.status(500).json({ status: 500, success: false, error });
+    console.log(err);
+  }
+};
+
+/**
+ * Handle request to delete one skill in spesific user profile
+ *
+ * @param {request} req
+ * @param {response} res
+ */
+module.exports.deleteSkill = async (req, res) => {
+  // get the skill id from request body
+  const { id } = req.body;
+
+  // get the userId from request params
+  const _userId = req.params.id;
+
+  // check if _userId is not valid object id
+  if (!isValidObjectId(_userId))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+
+  try {
+    // get the spesific profile belongs to userId, and pull the spesific skill id
+    const updated = await Profile.findOneAndUpdate({ _userId }, { $pull: { skills: { id } } }, { new: true });
+    // send back the updated data
+    res.status(200).json({ status: 200, success: true, data: updated.skills });
+  } catch (err) {
+    res.status(500).json({ status: 500, success: false, message: err.message });
     console.log(err);
   }
 };
@@ -212,6 +244,10 @@ module.exports.updateProject = async (req, res) => {
   // get the user id from request params id value
   const _userId = req.params.id;
 
+  // check if _userId is not valid object id
+  if (!isValidObjectId(_userId))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+
   try {
     // find one project and update into new value
     const updated = await Profile.findOneAndUpdate(
@@ -230,6 +266,34 @@ module.exports.updateProject = async (req, res) => {
   } catch (err) {
     const error = parseErrorUpdate(err);
     res.status(500).json({ status: 500, success: false, error });
+    console.log(err);
+  }
+};
+
+/**
+ * Handle request to delete one project in spesific user profile
+ *
+ * @param {request} req
+ * @param {response} res
+ */
+module.exports.deleteProject = async (req, res) => {
+  // get the project id from request body
+  const { id } = req.body;
+
+  // get the userId from request params
+  const _userId = req.params.id;
+
+  // check if _userId is not valid object id
+  if (!isValidObjectId(_userId))
+    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+
+  try {
+    // get the spesific profile belongs to userId, and pull the spesific project id
+    const updated = await Profile.findOneAndUpdate({ _userId }, { $pull: { projects: { id } } }, { new: true });
+    // send back the updated data
+    res.status(200).json({ status: 200, success: true, data: updated.projects });
+  } catch (err) {
+    res.status(500).json({ status: 500, success: false, message: err.message });
     console.log(err);
   }
 };
