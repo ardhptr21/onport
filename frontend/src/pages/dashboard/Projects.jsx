@@ -1,7 +1,11 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import AlertDanger from "../../components/AlertDanger";
 import ButtonAdd from "../../components/ButtonAdd";
+import ButtonCancel from "../../components/ButtonCancel";
+import ButtonForm from "../../components/ButtonForm";
 import DashboardTitle from "../../components/DashboardTitle";
+import Input from "../../components/Input";
 import RowTableProject from "../../components/RowTableProject";
 import Sidebar from "../../components/Sidebar";
 import Th from "../../components/Th";
@@ -10,6 +14,14 @@ import getUserId from "../../utils/getUserId";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const [toggleForm, setToggleForm] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [url, setUrl] = useState("");
+
+  const [updateId, setUpdateId] = useState(null);
+  const [error, setError] = useState({});
+
   const axios = useAxios();
 
   useEffect(() => {
@@ -26,7 +38,63 @@ const Projects = () => {
       }
     })();
     return () => ac.abort();
-  }, [axios]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setError({});
+
+    if (!updateId) {
+      handleAdd();
+      console.log("submit here");
+    } else {
+      handleUpdate();
+    }
+  };
+
+  const handleAdd = async () => {
+    try {
+      const {
+        data: { data: projects },
+      } = await axios.post(
+        `/profile/projects/${getUserId()}`,
+        { title, description, url },
+        { headers: { Authorization: Cookies.get("token") } }
+      );
+
+      setProjects(projects);
+      setTitle("");
+      setDescription("");
+      setUrl("");
+      setToggleForm(false);
+    } catch ({ response }) {
+      response.data.error && setError(response.data.error);
+    }
+  };
+  const handleUpdate = async () => {
+    try {
+      const {
+        data: { data: projects },
+      } = await axios.patch(
+        `/profile/projects/${getUserId()}`,
+        { title, description, url, id: updateId },
+        { headers: { Authorization: Cookies.get("token") } }
+      );
+
+      setProjects(projects);
+
+      setUpdateId(null);
+      setTitle("");
+      setDescription("");
+      setUrl("");
+      setToggleForm(false);
+    } catch ({ response }) {
+      response.data.error && setError(response.data.error);
+    }
+  };
 
   return (
     <section className="flex">
@@ -43,42 +111,93 @@ const Projects = () => {
           </svg>
         </DashboardTitle>
 
-        <ButtonAdd text="Add New Project" />
-
-        {!projects.length ? (
-          <AlertDanger>You do not have any project, please add at least one project</AlertDanger>
+        {!toggleForm ? (
+          <ButtonAdd text="Add New Project" onClick={() => setToggleForm(true)} />
         ) : (
-          <table className="border-collapse w-full mt-3">
-            <thead>
-              <tr>
-                <Th>No</Th>
-                <Th>Title</Th>
-                <Th>Description</Th>
-                <Th>URL</Th>
-                <Th>Actions</Th>
-              </tr>
-            </thead>
-            <tbody>
-              <RowTableProject
-                no={1}
-                title="Laravelia"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
-                url="https://google.com"
+          <ButtonCancel
+            text="Cancel"
+            onClick={() => {
+              setUpdateId(null);
+              setTitle("");
+              setDescription("");
+              setUrl("");
+              setToggleForm(false);
+              setError({});
+            }}
+          />
+        )}
+
+        {toggleForm && (
+          <form className="w-full mt-5" autoComplete="off" onSubmit={handleSubmit}>
+            <div className="w-3/4 m-auto bg-primary p-10">
+              <p className="text-center text-blue-500 font-bold text-lg uppercase mb-8">
+                {updateId ? "Update" : "Add"}
+              </p>
+              <Input
+                type="text"
+                placeholder="Name"
+                name="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                error={error.title?.replace("title", "name")}
               />
-              <RowTableProject
-                no={2}
-                title="OnPort"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
-                url="https://google.com"
+              <Input
+                type="text"
+                placeholder="Description"
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                error={error.description}
               />
-              <RowTableProject
-                no={3}
-                title="Candaan API 😂"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corrupti dignissimos quisquam, quos facere quam nihil, nisi beatae neque ut, earum harum vitae. Id deserunt incidunt, quos suscipit ullam sapiente!"
-                url="https://google.com"
+              <Input
+                type="url"
+                placeholder="url"
+                name="url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                error={error.url}
               />
-            </tbody>
-          </table>
+              <ButtonForm type="submit">{updateId ? "Update" : "Add"}</ButtonForm>
+            </div>
+          </form>
+        )}
+
+        {!toggleForm && (
+          <div>
+            {!projects.length ? (
+              <AlertDanger>You do not have any project, please add at least one project</AlertDanger>
+            ) : (
+              <table className="border-collapse w-full mt-3">
+                <thead>
+                  <tr>
+                    <Th>No</Th>
+                    <Th>Title</Th>
+                    <Th>Description</Th>
+                    <Th>URL</Th>
+                    <Th>Actions</Th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projects.map((project, index) => (
+                    <RowTableProject
+                      no={index + 1}
+                      title={project.title}
+                      description={project.description}
+                      url={project.url}
+                      key={project.id}
+                      clickEdit={() => {
+                        setUpdateId(project.id);
+                        setTitle(project.title);
+                        setDescription(project.description);
+                        setUrl(project.url);
+                        setToggleForm(true);
+                      }}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         )}
       </div>
     </section>

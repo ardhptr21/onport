@@ -2,7 +2,7 @@ const ButtonCancel = ({ text, ...props }) => {
   return (
     <button
       {...props}
-      className="uppercase p-3 gap-2 flex items-center bg-white hover:bg-gray-200 max-w-max shadow-sm hover:shadow-lg rounded-full h-10 text-primary"
+      className="uppercase p-3 gap-2 flex items-center bg-gray-200 hover:bg-gray-400 hover:text-white max-w-max shadow-sm hover:shadow-lg rounded-full h-10 text-primary"
       type="submit"
     >
       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

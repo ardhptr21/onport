@@ -3,7 +3,7 @@ import ButtonEdit from "./ButtonEdit";
 import Td from "./Td";
 import Tr from "./Tr";
 
-const RowTableProject = ({ no, title, description, url, projectId }) => {
+const RowTableProject = ({ no, title, description, url, clickEdit, clickDelete }) => {
   return (
     <Tr>
       <Td field="No">{no}</Td>
@@ -16,8 +16,8 @@ const RowTableProject = ({ no, title, description, url, projectId }) => {
       </Td>
       <Td field="Actions">
         <div className="flex justify-center lg:flex-col items-center gap-3">
-          <ButtonEdit data-id={projectId} />
-          <ButtonDelete data-id={projectId} />
+          <ButtonEdit onClick={clickEdit} />
+          <ButtonDelete onClick={clickDelete} />
         </div>
       </Td>
     </Tr>
