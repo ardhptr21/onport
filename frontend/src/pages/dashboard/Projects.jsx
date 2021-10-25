@@ -114,7 +114,7 @@ const Projects = () => {
   return (
     <section className="flex">
       <Sidebar />
-      <div className="flex justify-center flex-col items-center mx-auto w-3/4">
+      <div className="flex justify-center py-10 md:px-0 px-5 flex-col items-center mx-auto md:w-3/4 w-full overflow-hidden">
         <DashboardTitle text="Projects">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +144,7 @@ const Projects = () => {
 
         {toggleForm && (
           <form className="w-full mt-5" autoComplete="off" onSubmit={handleSubmit}>
-            <div className="w-3/4 m-auto bg-primary p-10">
+            <div className="md:w-3/4 m-auto bg-primary p-10">
               <p className="text-center text-blue-500 font-bold text-lg uppercase mb-8">
                 {updateId ? "Update" : "Add"}
               </p>
@@ -182,38 +182,40 @@ const Projects = () => {
             {!projects.length ? (
               <AlertDanger>You do not have any project, please add at least one project</AlertDanger>
             ) : (
-              <table className="border-collapse w-full mt-3">
-                <thead>
-                  <tr>
-                    <Th>No</Th>
-                    <Th>Title</Th>
-                    <Th>Description</Th>
-                    <Th>URL</Th>
-                    <Th>Actions</Th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {projects.map((project, index) => (
-                    <RowTableProject
-                      no={index + 1}
-                      title={project.title}
-                      description={project.description}
-                      url={project.url}
-                      key={project.id}
-                      clickEdit={() => {
-                        setUpdateId(project.id);
-                        setTitle(project.title);
-                        setDescription(project.description);
-                        setUrl(project.url);
-                        setToggleForm(true);
-                      }}
-                      clickDelete={() =>
-                        window.confirm("Are you sure want to delete this project?") && handleDelete(project.id)
-                      }
-                    />
-                  ))}
-                </tbody>
-              </table>
+              <div className="md:w-7/12 lg:w-auto w-auto m-auto overflow-auto">
+                <table className="border-collapse w-full mt-3">
+                  <thead>
+                    <tr>
+                      <Th>No</Th>
+                      <Th>Title</Th>
+                      <Th>Description</Th>
+                      <Th>URL</Th>
+                      <Th>Actions</Th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {projects.map((project, index) => (
+                      <RowTableProject
+                        no={index + 1}
+                        title={project.title}
+                        description={project.description}
+                        url={project.url}
+                        key={project.id}
+                        clickEdit={() => {
+                          setUpdateId(project.id);
+                          setTitle(project.title);
+                          setDescription(project.description);
+                          setUrl(project.url);
+                          setToggleForm(true);
+                        }}
+                        clickDelete={() =>
+                          window.confirm("Are you sure want to delete this project?") && handleDelete(project.id)
+                        }
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         )}
