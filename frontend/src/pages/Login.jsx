@@ -37,10 +37,12 @@ const Login = () => {
   if (redirect) return <Redirect to={getRouteName("user").path} />;
 
   return (
-    <section className="h-screen flex flex-col justify-center items-center">
+    <section className="h-screen flex flex-col p-5 justify-center items-center">
       <img src={Logo} alt="Onport Logo" className="w-36 mb-6" />
-      <form className="w-96 bg-primary p-10" autoComplete="off" spellCheck="false" onSubmit={handleSubmit}>
-        <h1 className="text-white text-4xl mb-6 font-bold uppercase font-encode-sans text-center">Please Login</h1>
+      <form className="sm:w-96 w-full bg-primary p-10" autoComplete="off" spellCheck="false" onSubmit={handleSubmit}>
+        <h1 className="text-white sm:text-4xl text-3xl mb-6 font-bold uppercase font-encode-sans text-center">
+          Please Login
+        </h1>
         <Input
           type="text"
           placeholder="Email Address"

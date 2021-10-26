@@ -36,10 +36,12 @@ const Register = () => {
   if (redirect) return <Redirect to={getRouteName("login").path} />;
 
   return (
-    <section className="h-screen flex flex-col justify-center items-center">
+    <section className="h-screen flex flex-col p-5 justify-center items-center">
       <img src={Logo} alt="Onport Logo" className="w-36 mb-6" />
-      <form className="w-96 bg-primary p-10" onSubmit={handleSubmit} autoComplete="off" spellCheck="false">
-        <h1 className="text-white text-4xl mb-6 font-bold uppercase font-encode-sans text-center">Please Register</h1>
+      <form className="sm:w-96 w-full bg-primary p-10" onSubmit={handleSubmit} autoComplete="off" spellCheck="false">
+        <h1 className="text-white sm:text-4xl text-3xl mb-6 font-bold uppercase font-encode-sans text-center">
+          Please Register
+        </h1>
         <Input
           type="text"
           placeholder="Your Name"
