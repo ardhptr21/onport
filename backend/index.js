@@ -26,8 +26,10 @@ app.use(corsConfig);
 const userRoutes = require("./routes/user.routes");
 const profileRoutes = require("./routes/profile.routes");
 const authRoutes = require("./routes/auth.routes");
+const emailRoutes = require("./routes/email.routes");
 
-app.use("/auth", authRoutes);
+app.use("/auth", emailRoutes);
+app.use("/email", authRoutes);
 app.use("/profile", profileRoutes);
 app.use("/user", userRoutes);
 app.get("/", (req, res) => res.send("Hello World"));
