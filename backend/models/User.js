@@ -40,6 +40,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       minlength: [200, "The length of about can't be less than 200 character"],
     },
+    verified: {
+      required: true,
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: {
