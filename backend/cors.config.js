@@ -15,6 +15,10 @@ console.log("\n");
 
 const corsConfig = cors({
   origin: (origin, callback) => {
+    if (process.env.NODE_ENV !== "production") {
+      callback(null, true);
+      return;
+    }
     if (whiteList.includes(origin)) {
       callback(null, true);
     } else {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const userVerifySchema = new mongoose.Schema({
-  userId: {
+  _userId: {
     required: true,
     type: String,
   },
@@ -9,8 +9,8 @@ const userVerifySchema = new mongoose.Schema({
     type: String,
   },
   expires_at: {
+    required: true,
     type: Date,
-    default: Date.now(),
   },
 });
 

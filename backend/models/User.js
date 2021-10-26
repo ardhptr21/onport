@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
-const Profile = require("./Profile");
+const UserVerify = require("./UserVerify");
+const { v4: uuid4 } = require("uuid");
 
 const userSchema = new mongoose.Schema(
   {
@@ -65,8 +66,9 @@ userSchema.pre("save", async function (next) {
 
 userSchema.post("save", async (doc) => {
   try {
-    const profile = await Profile.create({ _userId: doc._id });
-    console.log(`Success create "${doc.name}" Profile with id profile "${profile._id}"`);
+    const uniqueStr = uuid4() + doc._id;
+    const expires_at = Date.now() + 3600;
+    await UserVerify.create({ _userId: doc._id, uniqueStr, expires_at });
   } catch (err) {
     console.log(err);
   }
