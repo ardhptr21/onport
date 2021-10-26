@@ -2,6 +2,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import setTopUrl from "../utils/setTopUrl";
 import setGuestComp from "../utils/setGuestComp";
+import Logout from "../pages/Logout";
 
 const TOP_URL = "/auth";
 
@@ -21,6 +22,13 @@ const authRoutes = [
     component: Register,
     useNavbar: false,
     guest: true,
+  },
+  {
+    name: "logout",
+    path: "/logout",
+    exact: false,
+    component: Logout,
+    useNavbar: false,
   },
 ];
 

@@ -86,7 +86,13 @@ const Navbar = () => {
             <Link className="text-lg font-medium hover:underline" to={getRoutesName("projects").path}>
               Projects
             </Link>
-            <Link className="text-lg font-medium hover:underline" to={getRoutesName("home").path}>
+            <Link
+              className="text-lg font-medium hover:underline"
+              to={getRoutesName("projects", { id: getUserId() }).path}
+            >
+              Your Portfolio
+            </Link>
+            <Link className="text-lg font-medium hover:underline" to={getRoutesName("logout").path}>
               Logout
             </Link>
           </div>

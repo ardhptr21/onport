@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import LogoWhite from "../assets/image/LogoWhite.svg";
 import getUserId from "../utils/getUserId";
 import LinkSidebar from "./LinkSidebar";
@@ -7,9 +8,9 @@ const Sidebar = () => {
     <>
       <div className="w-64 h-screen hidden md:block"></div>
       <div className="md:w-64 w-screen md:h-screen bg-primary fixed md:top-0 z-50 md:bottom-auto bottom-0 left-0">
-        <div className="flex items-center justify-center">
+        <Link className="flex items-center justify-center" to="/">
           <img className="h-8 mt-10 hidden md:block" src={LogoWhite} alt="White Logo ONPORT" />
-        </div>
+        </Link>
         <nav className="md:mt-10 md:block flex justify-center items-center">
           <LinkSidebar text="User" route="user">
             <svg
