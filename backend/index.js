@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
-
 /**----------------------
  **      REQUIRE LIBRARY
  *------------------------**/
@@ -11,6 +7,10 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+  app.use(require("morgan")("dev"));
+}
 
 /**----------------------
  **      MIDDLEWARES
