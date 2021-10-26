@@ -3,7 +3,7 @@
  *------------------------**/
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
+const corsConfig = require("./cors.config");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -11,17 +11,14 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
   app.use(require("morgan")("dev"));
 }
+const chalk = require("chalk");
 
 /**----------------------
  **      MIDDLEWARES
  *------------------------**/
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.ORIGIN || "http://localhost:3000",
-  })
-);
+app.use(corsConfig);
 
 /**----------------------
  **      ROUTES
@@ -41,9 +38,9 @@ app.get("/", (req, res) => res.send("Hello World"));
 mongoose
   .connect(process.env.DB_URI)
   .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT} and connected to database`));
+    app.listen(PORT, () => console.log(chalk.green(`App Running on port ${PORT}!\n`)));
   })
   .catch((err) => {
-    console.log("Server not running because database can't connected");
+    console.log(chalk.red("Server not running because database can't connected"));
     console.log(err);
   });
