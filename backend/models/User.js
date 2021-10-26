@@ -3,6 +3,7 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const UserVerify = require("./UserVerify");
 const { v4: uuid4 } = require("uuid");
+const { sendEmailVerification } = require("../configs/mail.config");
 
 const userSchema = new mongoose.Schema(
   {
@@ -68,7 +69,9 @@ userSchema.post("save", async (doc) => {
   try {
     const uniqueStr = uuid4() + doc._id;
     const expires_at = Date.now() + 3600;
+
     await UserVerify.create({ _userId: doc._id, uniqueStr, expires_at });
+    sendEmailVerification(doc.email);
   } catch (err) {
     console.log(err);
   }
