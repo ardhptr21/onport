@@ -3,6 +3,9 @@ const SkillItem = ({ name }) => {
     <div
       className="px-4 
                 py-2
+                flex
+                justify-center
+                items-center
                 sm:text-base
                 text-sm
                 w-full text-center 
