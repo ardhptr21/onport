@@ -2,6 +2,8 @@ const { request, response } = require("express");
 const UserVerify = require("../models/UserVerify");
 const User = require("../models/User");
 const Profile = require("../models/Profile");
+const { sendEmailVerification } = require("../configs/mail.config");
+const { v4: uuid4 } = require("uuid");
 
 /**
  *  Handle client request to verify email address
@@ -28,6 +30,7 @@ module.exports.verify = async (req, res) => {
     res.status(200).json({ status: 200, success: true, message: "Email verified" });
   } catch (err) {
     res.status(500).json({ status: 500, success: false, message: err.message });
+    console.log(err);
   }
 };
 
@@ -37,4 +40,20 @@ module.exports.verify = async (req, res) => {
  * @param {request} req
  * @param {response} res
  */
-module.exports.sendVerify = (req, res) => {};
+module.exports.sendVerify = async (req, res) => {
+  // get the userId from request params id value
+  const _userId = req.params.id;
+
+  try {
+    const user = await User.findById(_userId);
+
+    const uniqueStr = uuid4() + user._id;
+    const expires_at = Date.now() + 3600;
+    await UserVerify.create({ _userId, uniqueStr, expires_at });
+    sendEmailVerification(user.email, `${process.env.FRONTEND_URL}/email/verify/${uniqueStr}`);
+    res.status(200).json({ status: 200, success: true, message: "Verification email sent successfully" });
+  } catch (err) {
+    res.status(500).json({ status: 500, success: false, message: err.message });
+    console.log(err);
+  }
+};
