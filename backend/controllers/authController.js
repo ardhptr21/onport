@@ -37,6 +37,14 @@ module.exports.login = async (req, res) => {
         .status(400)
         .json({ status: 400, success: false, message: "Can't find user with that email or password" });
 
+    if (!user.verified)
+      return res.status(401).json({
+        status: 401,
+        success: false,
+        verified: "UNVERIFIED",
+        message: "You must verify your email before login",
+      });
+
     // compare request password and hashing password
     const result = await bcrypt.compare(password, user.password);
 
@@ -65,12 +73,13 @@ module.exports.login = async (req, res) => {
  * @param {request} req
  * @param {response} res
  */
-module.exports.verify = (req, res) => {
+module.exports.verify = async (req, res) => {
   const TOKEN = req.header("Authorization");
   if (!TOKEN) return res.status(401).json({ status: 401, verify: false, message: "Token is empty" });
 
   try {
     jwt.verify(TOKEN, process.env.SECRET_JWT_KEY);
+
     res.status(200).json({ status: 200, verify: true });
   } catch (err) {
     res.status(401).json({ status: 401, verify: false, message: "We can't verify" });

@@ -19,7 +19,7 @@ module.exports.verify = async (req, res) => {
     const userVerify = await UserVerify.findOne({ uniqueStr });
     if (!userVerify) return res.status(404).json({ status: 404, success: false, message: "Can't verify this link" });
 
-    if (userVerify < Date.now()) {
+    if (userVerify.expires_at < Date.now()) {
       await UserVerify.findByIdAndDelete(userVerify._id);
       return res.status(404).json({ status: 404, success: false, message: "Link verification expired" });
     }

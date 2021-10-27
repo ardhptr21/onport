@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
  * @param {response} res
  * @param {Function} next
  */
-module.exports.isAuth = (req, res, next) => {
+module.exports.isAuth = async (req, res, next) => {
   const TOKEN = req.header("Authorization");
 
   if (!TOKEN) return res.status(401).json({ status: 401, verify: false, message: "Token is empty" });
