@@ -45,7 +45,7 @@ module.exports.add = async (req, res) => {
 
   try {
     const user = await User.create({ name, email, password });
-    res.status(200).json({ status: 200, success: true, data: { id: user._id } });
+    res.status(200).json({ status: 200, success: true, data: { id: user._id, uniqueStr: user._doc.uniqueStr } });
   } catch (err) {
     const error = parseError(err);
     res.status(500).json({ status: 500, success: false, error });

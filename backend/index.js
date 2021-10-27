@@ -28,8 +28,8 @@ const profileRoutes = require("./routes/profile.routes");
 const authRoutes = require("./routes/auth.routes");
 const emailRoutes = require("./routes/email.routes");
 
-app.use("/auth", emailRoutes);
-app.use("/email", authRoutes);
+app.use("/auth", authRoutes);
+app.use("/email", emailRoutes);
 app.use("/profile", profileRoutes);
 app.use("/user", userRoutes);
 app.get("/", (req, res) => res.send("Hello World"));

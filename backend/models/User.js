@@ -71,7 +71,8 @@ userSchema.post("save", async (doc) => {
     const expires_at = Date.now() + 3600;
 
     await UserVerify.create({ _userId: doc._id, uniqueStr, expires_at });
-    sendEmailVerification(doc.email);
+    doc._doc.uniqueStr = uniqueStr;
+    sendEmailVerification(doc.email, `${process.env.FRONTEND_URL}/email/verify/${uniqueStr}`);
   } catch (err) {
     console.log(err);
   }
