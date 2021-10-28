@@ -15,7 +15,7 @@ const Home = () => {
       {!getUserId() && (
         <>
           <p className="text-xs mt-3 mb-1">OR</p>
-          <Link to="/portfolio/617790868ff39c9216e411e7" className="underline text-sm hover:font-bold duration-200">
+          <Link to={process.env.REACT_APP_DEMO_PROJECT} className="underline text-sm hover:font-bold duration-200">
             SEE DEMO HERE
           </Link>
         </>

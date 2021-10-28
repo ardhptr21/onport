@@ -22,6 +22,8 @@ module.exports = {
       fontWeight: ["hover"],
       translate: ["group-hover"],
       backgroundImage: ["hover"],
+      backgroundColor: ["disabled"],
+      textColor: ["disabled"],
     },
   },
   plugins: [],

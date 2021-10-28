@@ -13,6 +13,7 @@ const Register = () => {
   const [password2, setPassword2] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [error, setError] = useState({});
+  const [userId, setUserId] = useState(null);
 
   const axios = useAxios();
 
@@ -26,14 +27,17 @@ const Register = () => {
     }
 
     try {
-      await axios.post("/user", { name, email, password });
+      const {
+        data: { data },
+      } = await axios.post("/user", { name, email, password });
+      setUserId(data.id);
       setRedirect(true);
     } catch ({ response }) {
       setError(response.data.error);
     }
   };
 
-  if (redirect) return <Redirect to={getRouteName("login").path} />;
+  if (redirect) return <Redirect to={getRouteName("send-verify", { id: userId }).path} />;
 
   return (
     <section className="h-screen flex flex-col p-5 justify-center items-center">
