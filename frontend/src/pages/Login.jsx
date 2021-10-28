@@ -1,4 +1,4 @@
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import ButtonForm from "../components/ButtonForm";
 import Input from "../components/Input";
 import getRouteName from "../utils/getRouteName";
@@ -6,13 +6,17 @@ import Logo from "../assets/image/Logo.svg";
 import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import Cookies from "js-cookie";
+import getRoutesName from "../utils/getRouteName";
 
 const Login = () => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [isUnverified, setIsUnverified] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const axios = useAxios();
 
@@ -31,6 +35,20 @@ const Login = () => {
     } catch ({ response }) {
       response.data.error && setError(response.data.error);
       response.data.message && setMessage(response.data.message);
+
+      if (response.data.verified === "UNVERIFIED") {
+        setIsUnverified(true);
+        setUserId(response.data.id);
+      }
+    }
+  };
+
+  const handleUnverified = async () => {
+    try {
+      await axios.post(`/email/send-verify/${userId}`);
+      history.push(getRoutesName("send-verify", { id: userId }).path);
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
@@ -59,7 +77,17 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           error={error.password?.replace('"value"', "Password")}
         />
-        {message && <p className="text-center text-red-500 border-2 p-2 font-bold border-red-500">{message}</p>}
+        {message && (
+          <p className="text-center text-red-500 border-2 p-2 font-bold border-red-500">
+            {message}{" "}
+            {isUnverified && (
+              <span onClick={handleUnverified} className="font-bold underline text-white cursor-pointer ">
+                <br />
+                Send Verification
+              </span>
+            )}
+          </p>
+        )}
         <ButtonForm type="submit">Login</ButtonForm>
         <Link to={getRouteName("register").path} className="text-white text-xs hover:underline">
           Don't have an account? Please register

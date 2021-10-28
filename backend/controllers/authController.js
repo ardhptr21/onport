@@ -41,6 +41,7 @@ module.exports.login = async (req, res) => {
       return res.status(401).json({
         status: 401,
         success: false,
+        id: user._id,
         verified: "UNVERIFIED",
         message: "You must verify your email before login",
       });
