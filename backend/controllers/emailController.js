@@ -19,7 +19,11 @@ module.exports.verify = async (req, res) => {
     const userVerify = await UserVerify.findOne({ uniqueStr });
     if (!userVerify) return res.status(404).json({ status: 404, success: false, message: "Can't verify this link" });
 
-    if (userVerify.expires_at < Date.now()) {
+    console.log(Date.parse(userVerify.expires_at));
+    console.log(Date.now());
+    console.log(Date.parse(userVerify.expires_at) - Date.now());
+
+    if (Date.parse(userVerify.expires_at) < Date.now()) {
       await UserVerify.findByIdAndDelete(userVerify._id);
       return res.status(404).json({ status: 404, success: false, message: "Link verification expired" });
     }
@@ -29,7 +33,7 @@ module.exports.verify = async (req, res) => {
     await Profile.create({ _userId: user._id });
     res.status(200).json({ status: 200, success: true, message: "Email verified" });
   } catch (err) {
-    res.status(500).json({ status: 500, success: false, message: err.message });
+    res.status(500).json({ status: 500, success: false, message: "Can't verify this link" });
     console.log(err);
   }
 };
@@ -48,7 +52,7 @@ module.exports.sendVerify = async (req, res) => {
     const user = await User.findById(_userId);
 
     const uniqueStr = uuid4() + user._id;
-    const expires_at = Date.now() + 3600;
+    const expires_at = Date.now() + 3600 * 1000;
     await UserVerify.create({ _userId, uniqueStr, expires_at });
     sendEmailVerification(user.email, `${process.env.FRONTEND_URL}/email/verify/${uniqueStr}`);
     res.status(200).json({ status: 200, success: true, message: "Verification email sent successfully" });

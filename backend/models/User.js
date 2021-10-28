@@ -68,7 +68,7 @@ userSchema.pre("save", async function (next) {
 userSchema.post("save", async (doc) => {
   try {
     const uniqueStr = uuid4() + doc._id;
-    const expires_at = Date.now() + 3600;
+    const expires_at = Date.now() + 3600 * 1000;
 
     await UserVerify.create({ _userId: doc._id, uniqueStr, expires_at });
     doc._doc.uniqueStr = uniqueStr;
