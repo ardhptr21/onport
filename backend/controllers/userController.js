@@ -44,6 +44,12 @@ module.exports.add = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+    const checkUser = await User.findOne({ email, verified: false });
+
+    if (checkUser) {
+      await User.findByIdAndDelete(checkUser._id);
+    }
+
     const user = await User.create({ name, email, password });
     res.status(200).json({ status: 200, success: true, data: { id: user._id, uniqueStr: user._doc.uniqueStr } });
   } catch (err) {
