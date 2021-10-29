@@ -28,7 +28,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="flex items-center justify-between px-10 py-8 absolute top-0 w-full">
+    <nav className="flex items-center justify-between px-10 py-8 fixed top-0 w-full bg-white z-50 border-b-2 border-primary">
       <Link to={getRoutesName("home").path}>
         <img src={Logo} alt="ONPORT LOGO" className="w-40" />
       </Link>
