@@ -2,12 +2,11 @@ import Logo from "../assets/image/Logo.svg";
 import { Link } from "react-router-dom";
 import getRouteName from "../utils/getRouteName";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
 
 const Logout = () => {
   useEffect(() => {
     try {
-      Cookies.remove("token");
+      localStorage.removeItem("token");
     } catch (err) {
       console.error(err.message);
     }

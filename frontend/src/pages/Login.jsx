@@ -5,7 +5,6 @@ import getRouteName from "../utils/getRouteName";
 import Logo from "../assets/image/Logo.svg";
 import useAxios from "../hooks/useAxios";
 import { useState } from "react";
-import Cookies from "js-cookie";
 import getRoutesName from "../utils/getRouteName";
 
 const Login = () => {
@@ -30,7 +29,7 @@ const Login = () => {
         data: { token },
       } = await axios.post("/auth/login", { email, password });
 
-      Cookies.set("token", token, { expires: 3 });
+      localStorage.setItem("token", token, { expires: 3 });
       setRedirect(true);
     } catch ({ response }) {
       response.data.error && setError(response.data.error);

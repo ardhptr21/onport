@@ -11,7 +11,6 @@ import { useLocation } from "react-router";
 
 import SquareLogo from "../../assets/image/SquareLogo.svg";
 import getUserId from "../../utils/getUserId";
-import Cookies from "js-cookie";
 import DashboardTitle from "../../components/DashboardTitle";
 
 const User = () => {
@@ -77,7 +76,7 @@ const User = () => {
         } = await axiosInstance.put(
           `/user/${getUserId()}`,
           { name, position, about, photo: url },
-          { headers: { Authorization: Cookies.get("token") } }
+          { headers: { Authorization: localStorage.getItem("token") } }
         );
         user.photo && setPhoto(user.photo);
         user.name && setName(user.name);

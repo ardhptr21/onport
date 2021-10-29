@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import AlertDanger from "../../components/AlertDanger";
 import ButtonAdd from "../../components/ButtonAdd";
@@ -62,7 +61,7 @@ const Projects = () => {
       } = await axios.post(
         `/profile/projects/${getUserId()}`,
         { title, description, url },
-        { headers: { Authorization: Cookies.get("token") } }
+        { headers: { Authorization: localStorage.getItem("token") } }
       );
 
       setProjects(projects);
@@ -84,7 +83,7 @@ const Projects = () => {
       } = await axios.patch(
         `/profile/projects/${getUserId()}`,
         { title, description, url, id: updateId },
-        { headers: { Authorization: Cookies.get("token") } }
+        { headers: { Authorization: localStorage.getItem("token") } }
       );
 
       setProjects(projects);
@@ -107,7 +106,7 @@ const Projects = () => {
         data: { data: projects },
       } = await axios.delete(`/profile/projects/${getUserId()}`, {
         data: { id },
-        headers: { Authorization: Cookies.get("token") },
+        headers: { Authorization: localStorage.getItem("token") },
       });
       setProjects(projects);
       toast.success("Project deleted");

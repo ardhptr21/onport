@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
@@ -12,7 +11,10 @@ const Auth = ({ children, Component }) => {
     const ac = new AbortController();
     (async () => {
       try {
-        await axios.post("/auth/verify", null, { signal: ac.signal, headers: { Authorization: Cookies.get("token") } });
+        await axios.post("/auth/verify", null, {
+          signal: ac.signal,
+          headers: { Authorization: localStorage.getItem("token") },
+        });
         setVerify(true);
       } catch (e) {
         !ac.signal.aborted && setVerify(false);

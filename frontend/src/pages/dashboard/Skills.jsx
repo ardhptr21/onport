@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import AlertDanger from "../../components/AlertDanger";
 import useAxios from "../../hooks/useAxios";
 import getUserId from "../../utils/getUserId";
-import Cookies from "js-cookie";
 import ButtonCancel from "../../components/ButtonCancel";
 import { toast } from "react-toastify";
 
@@ -52,7 +51,7 @@ const Skills = () => {
       } = await axios.post(
         `/profile/skills/${getUserId()}`,
         { skill },
-        { headers: { Authorization: Cookies.get("token") } }
+        { headers: { Authorization: localStorage.getItem("token") } }
       );
 
       setSkills(skills);
@@ -73,7 +72,7 @@ const Skills = () => {
       } = await axios.patch(
         `/profile/skills/${getUserId()}`,
         { skill, id: updateId },
-        { headers: { Authorization: Cookies.get("token") } }
+        { headers: { Authorization: localStorage.getItem("token") } }
       );
       setUpdateId(null);
       setSkills(skills);
@@ -91,7 +90,7 @@ const Skills = () => {
         data: { data: skills },
       } = await axios.delete(`/profile/skills/${getUserId()}`, {
         data: { id },
-        headers: { Authorization: Cookies.get("token") },
+        headers: { Authorization: localStorage.getItem("token") },
       });
       setSkills(skills);
     } catch (err) {

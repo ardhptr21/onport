@@ -1,8 +1,7 @@
 import jwt_decode from "jwt-decode";
-import Cookies from "js-cookie";
 
 const getUserId = () => {
-  const TOKEN = Cookies.get("token");
+  const TOKEN = localStorage.getItem("token");
   let data = {};
   try {
     data = jwt_decode(TOKEN);
