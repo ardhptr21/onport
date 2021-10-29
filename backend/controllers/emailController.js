@@ -28,7 +28,11 @@ module.exports.verify = async (req, res) => {
 
     await UserVerify.findByIdAndDelete(userVerify._id);
     await UserVerify.deleteMany({ _userId: userVerify._userId });
-    await Profile.create({ _userId: user._id });
+
+    const profile = await Profile.findOne({ _userId: user._id });
+    if (!profile) {
+      await Profile.create({ _userId: user._id });
+    }
 
     res.status(200).json({ status: 200, success: true, message: "Email verified" });
   } catch (err) {

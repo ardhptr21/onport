@@ -52,7 +52,17 @@ const Login = () => {
     }
   };
 
-  if (redirect) return <Redirect to={getRouteName("user").path} />;
+  if (redirect)
+    return (
+      <Redirect
+        to={{
+          pathname: getRouteName("user").path,
+          state: {
+            emit: true,
+          },
+        }}
+      />
+    );
 
   return (
     <section className="h-screen flex flex-col p-5 justify-center items-center">

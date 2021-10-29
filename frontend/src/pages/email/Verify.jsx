@@ -3,6 +3,7 @@ import { Link, useParams, Redirect } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import getRoutesName from "../../utils/getRouteName";
 import isValidUniqueStr from "../../utils/isValidUniqueStr";
+import { toast } from "react-toastify";
 
 const Verify = () => {
   const { uniqueStr } = useParams();
@@ -48,10 +49,13 @@ const Verify = () => {
   const handleResend = async () => {
     try {
       await axios.post(`/email/send-verify/${id}`);
+      toast.success("Email verification sent");
     } catch (err) {
       console.log(err.message);
+      toast.error("Ooops! email verification can't be sent");
+    } finally {
+      setDelay(MAX_DELAY);
     }
-    setDelay(MAX_DELAY);
   };
 
   if (redirect) return <Redirect to={getRoutesName("register").path} />;

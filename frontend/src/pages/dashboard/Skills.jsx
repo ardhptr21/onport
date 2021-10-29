@@ -8,6 +8,7 @@ import useAxios from "../../hooks/useAxios";
 import getUserId from "../../utils/getUserId";
 import Cookies from "js-cookie";
 import ButtonCancel from "../../components/ButtonCancel";
+import { toast } from "react-toastify";
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -56,8 +57,10 @@ const Skills = () => {
 
       setSkills(skills);
       setError({});
+      toast.success("New skill added");
     } catch ({ response }) {
       response.data.error && setError(response.data.error);
+      toast.error("Ooops! added new skill failed");
     }
 
     setSkill("");
@@ -75,8 +78,10 @@ const Skills = () => {
       setUpdateId(null);
       setSkills(skills);
       setSkill("");
+      toast.success("Skill updated");
     } catch ({ response }) {
       response.data.error && setError(response.data.error);
+      toast.error("Ooops! updated skill failed");
     }
   };
 
@@ -91,7 +96,10 @@ const Skills = () => {
       setSkills(skills);
     } catch (err) {
       console.error(err);
+      toast.error("Ooops! deleted skill failed");
     }
+
+    toast.success("Skill deleted");
   };
 
   return (

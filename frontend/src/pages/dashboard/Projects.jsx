@@ -11,6 +11,7 @@ import Sidebar from "../../components/Sidebar";
 import Th from "../../components/Th";
 import useAxios from "../../hooks/useAxios";
 import getUserId from "../../utils/getUserId";
+import { toast } from "react-toastify";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -49,7 +50,6 @@ const Projects = () => {
 
     if (!updateId) {
       handleAdd();
-      console.log("submit here");
     } else {
       handleUpdate();
     }
@@ -70,8 +70,10 @@ const Projects = () => {
       setDescription("");
       setUrl("");
       setToggleForm(false);
+      toast.success("New project added");
     } catch ({ response }) {
       response.data.error && setError(response.data.error);
+      toast.error("Ooops! updated skill failed");
     }
   };
 
@@ -92,8 +94,10 @@ const Projects = () => {
       setDescription("");
       setUrl("");
       setToggleForm(false);
+      toast.success("Project updated");
     } catch ({ response }) {
       response.data.error && setError(response.data.error);
+      toast.error("Ooops! updated skill failed");
     }
   };
 
@@ -106,8 +110,10 @@ const Projects = () => {
         headers: { Authorization: Cookies.get("token") },
       });
       setProjects(projects);
+      toast.success("Project deleted");
     } catch (err) {
       console.error(err);
+      toast.error("Ooops! deleted skill failed");
     }
   };
 

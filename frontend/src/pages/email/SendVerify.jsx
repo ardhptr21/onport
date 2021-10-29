@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Redirect, useParams } from "react-router";
 import useAxios from "../../hooks/useAxios";
 import getRoutesName from "../../utils/getRouteName";
+import { toast } from "react-toastify";
 
 const SendVerify = () => {
   const MAX_DELAY = 60;
@@ -37,8 +38,10 @@ const SendVerify = () => {
   const handleResend = async () => {
     try {
       await axios.post(`/email/send-verify/${id}`);
+      toast.success("Email verification sent");
     } catch (err) {
       console.error(err.message);
+      toast.error("Ooops! email verification can't be sent");
     } finally {
       setDelay(MAX_DELAY);
     }

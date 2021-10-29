@@ -6,6 +6,8 @@ import Sidebar from "../../components/Sidebar";
 import Textarea from "../../components/Textarea";
 import useAxios from "../../hooks/useAxios";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router";
 
 import SquareLogo from "../../assets/image/SquareLogo.svg";
 import getUserId from "../../utils/getUserId";
@@ -14,6 +16,7 @@ import DashboardTitle from "../../components/DashboardTitle";
 
 const User = () => {
   const axiosInstance = useAxios();
+  const location = useLocation();
   const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
@@ -23,6 +26,11 @@ const User = () => {
   const [error, setError] = useState({});
 
   useEffect(() => {
+    if (location.state?.emit) {
+      toast.info("Welcome To Dashboard");
+      window.history.replaceState({}, document.title);
+    }
+
     const ac = new AbortController();
 
     (async () => {
@@ -75,8 +83,11 @@ const User = () => {
         user.name && setName(user.name);
         user.position && setPosition(user.position);
         user.about && setAbout(user.about);
+
+        toast.success("User info updated");
       } catch ({ response }) {
         response.data.error && setError(response.data.error);
+        toast.error("Ooops! can't update user info");
       }
     })();
 
