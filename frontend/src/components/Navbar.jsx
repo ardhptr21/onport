@@ -13,16 +13,18 @@ const Navbar = () => {
   const [scale, setScale] = useState("scale-0");
 
   useEffect(() => {
-    (async () => {
-      try {
-        const {
-          data: { data: user },
-        } = await axios.get(`/user/${getUserId()}`);
-        setUser(user);
-      } catch (err) {
-        console.error(err);
-      }
-    })();
+    if (getUserId()) {
+      (async () => {
+        try {
+          const {
+            data: { data: user },
+          } = await axios.get(`/user/${getUserId()}`);
+          setUser(user);
+        } catch (err) {
+          console.error(err);
+        }
+      })();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

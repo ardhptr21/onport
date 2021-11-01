@@ -5,9 +5,7 @@ const getUserId = () => {
   let data = {};
   try {
     data = jwt_decode(TOKEN);
-  } catch (err) {
-    console.error(err.message);
-  }
+  } catch {}
 
   return data.userId;
 };
