@@ -14,7 +14,7 @@ const pagesRoutes = [
   },
   {
     name: "portfolio",
-    path: "/portfolio/:id",
+    path: "/portfolio/:query",
     component: Portfolio,
     useNavbar: false,
   },

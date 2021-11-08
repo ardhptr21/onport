@@ -21,10 +21,10 @@ const Portfolio = () => {
       try {
         const {
           data: { data: user },
-        } = await axios.get(`/user/${params.id}`);
+        } = await axios.get(`/user/${params.query}`);
         const {
           data: { data: profile },
-        } = await axios.get(`/profile/${params.id}`);
+        } = await axios.get(`/profile/${params.query}`);
 
         setUser(user);
         setProfile(profile);
