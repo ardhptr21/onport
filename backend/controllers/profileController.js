@@ -10,15 +10,17 @@ const { v4: uuid4 } = require("uuid");
  * @param {response} res
  */
 module.exports.getAll = async (req, res) => {
-  // get userId from the params id value
-  const _userId = req.params.id;
-
-  // check if _userId is not valid object id
-  if (!isValidObjectId(_userId))
-    return res.status(400).json({ status: 400, success: false, message: `Id ${_userId} is not valid object id` });
+  // get search value (id or username) from the params
+  const search = req.params.id;
 
   try {
-    const profile = await Profile.findOne({ _userId });
+    let profile = null;
+
+    if (isValidObjectId(search)) {
+      profile = await Profile.findOne({ _userId: search });
+    } else {
+      profile = await Profile.findOne({ username: search });
+    }
 
     // check if profile is null
     if (!profile)

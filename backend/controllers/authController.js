@@ -56,7 +56,7 @@ module.exports.login = async (req, res) => {
         .json({ status: 400, success: false, message: "Can't find user with that email or password" });
 
     // create JWT token if all find
-    const TOKEN = jwt.sign({ userId: user._id }, process.env.SECRET_JWT_KEY, {
+    const TOKEN = jwt.sign({ userId: user._id, username: user.username }, process.env.SECRET_JWT_KEY, {
       expiresIn: "3d",
     });
 

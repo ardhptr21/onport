@@ -12,6 +12,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       maxlength: [100, "The length of name can't be more than 100 character"],
     },
+    username: {
+      required: [true, "Username can't be empty"],
+      type: String,
+      unique: true,
+      validate: {
+        validator: (value) => /^[a-zA-Z0-9]+$/.test(value),
+        message: "Username can only contain letters and numbers",
+      },
+    },
     email: {
       required: [true, "Email can't be empty"],
       type: String,

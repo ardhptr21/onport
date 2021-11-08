@@ -9,19 +9,22 @@ const User = require("../models/User");
  * @param {response} res
  */
 module.exports.get = async (req, res) => {
-  // get the id for the params
-  const _id = req.params.id;
-
-  // check if id is valid id
-  if (!isValidObjectId(_id))
-    return res.status(400).json({ status: 400, success: false, message: `Id ${_id} is not valid object id` });
+  // get the search (id or username) from the params
+  const search = req.params.id;
 
   try {
-    const user = await User.findById(_id);
+    let user = null;
+    if (isValidObjectId(search)) {
+      user = await User.findById(search);
+    } else {
+      user = await User.findOne({ username: search });
+    }
 
     // check if user is not null
     if (!user)
-      return res.status(404).json({ status: 404, success: false, message: `User with id ${_id} is not found` });
+      return res
+        .status(404)
+        .json({ status: 404, success: false, message: `User with id/username ${search} is not found` });
 
     // deleted user password, before send back the user data
     delete { ...user }._doc.password;
@@ -41,7 +44,7 @@ module.exports.get = async (req, res) => {
  */
 module.exports.add = async (req, res) => {
   // get the name, email, and password value from the request body
-  const { name, email, password } = req.body;
+  const { name, username, email, password } = req.body;
 
   try {
     const checkUser = await User.findOne({ email, verified: false });
@@ -50,7 +53,7 @@ module.exports.add = async (req, res) => {
       await User.findByIdAndDelete(checkUser._id);
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, username, email, password });
     res.status(200).json({ status: 200, success: true, data: { id: user._id, uniqueStr: user._doc.uniqueStr } });
   } catch (err) {
     const error = parseError(err);
@@ -67,8 +70,8 @@ module.exports.add = async (req, res) => {
  */
 module.exports.update = async (req, res) => {
   // get the name, position, and about value from request body
-  const { name, position, about, photo } = req.body;
-  const updateItem = { name, position, about, photo };
+  const { name, username, position, about, photo } = req.body;
+  const updateItem = { name, username, position, about, photo };
 
   Object.keys(updateItem).forEach((key) => {
     const item = updateItem[key];
