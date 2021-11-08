@@ -9,7 +9,7 @@ import RowTableProject from "../../components/RowTableProject";
 import Sidebar from "../../components/Sidebar";
 import Th from "../../components/Th";
 import useAxios from "../../hooks/useAxios";
-import getUserId from "../../utils/getUserId";
+import getUserInfo from "../../utils/getUserInfo";
 import { toast } from "react-toastify";
 
 const Projects = () => {
@@ -30,7 +30,7 @@ const Projects = () => {
       try {
         const {
           data: { data: projects },
-        } = await axios.get(`/profile/projects/${getUserId()}`, { signal: ac.signal });
+        } = await axios.get(`/profile/projects/${getUserInfo().userId}`, { signal: ac.signal });
 
         setProjects(projects);
       } catch (err) {
@@ -59,7 +59,7 @@ const Projects = () => {
       const {
         data: { data: projects },
       } = await axios.post(
-        `/profile/projects/${getUserId()}`,
+        `/profile/projects/${getUserInfo().userId}`,
         { title, description, url },
         { headers: { Authorization: localStorage.getItem("token") } }
       );
@@ -81,7 +81,7 @@ const Projects = () => {
       const {
         data: { data: projects },
       } = await axios.patch(
-        `/profile/projects/${getUserId()}`,
+        `/profile/projects/${getUserInfo().userId}`,
         { title, description, url, id: updateId },
         { headers: { Authorization: localStorage.getItem("token") } }
       );
@@ -104,7 +104,7 @@ const Projects = () => {
     try {
       const {
         data: { data: projects },
-      } = await axios.delete(`/profile/projects/${getUserId()}`, {
+      } = await axios.delete(`/profile/projects/${getUserInfo().userId}`, {
         data: { id },
         headers: { Authorization: localStorage.getItem("token") },
       });

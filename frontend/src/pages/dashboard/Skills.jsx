@@ -5,7 +5,7 @@ import DashboardTitle from "../../components/DashboardTitle";
 import { useEffect, useState } from "react";
 import AlertDanger from "../../components/AlertDanger";
 import useAxios from "../../hooks/useAxios";
-import getUserId from "../../utils/getUserId";
+import getUserInfo from "../../utils/getUserInfo";
 import ButtonCancel from "../../components/ButtonCancel";
 import { toast } from "react-toastify";
 
@@ -23,7 +23,7 @@ const Skills = () => {
       try {
         const {
           data: { data: skills },
-        } = await axios.get(`/profile/skills/${getUserId()}`, { signal: ac.signal });
+        } = await axios.get(`/profile/skills/${getUserInfo().userId}`, { signal: ac.signal });
         setSkills(skills);
       } catch (err) {
         !ac.signal.aborted && console.error(err.message);
@@ -49,7 +49,7 @@ const Skills = () => {
       const {
         data: { data: skills },
       } = await axios.post(
-        `/profile/skills/${getUserId()}`,
+        `/profile/skills/${getUserInfo().userId}`,
         { skill },
         { headers: { Authorization: localStorage.getItem("token") } }
       );
@@ -70,7 +70,7 @@ const Skills = () => {
       const {
         data: { data: skills },
       } = await axios.patch(
-        `/profile/skills/${getUserId()}`,
+        `/profile/skills/${getUserInfo().userId}`,
         { skill, id: updateId },
         { headers: { Authorization: localStorage.getItem("token") } }
       );
@@ -88,7 +88,7 @@ const Skills = () => {
     try {
       const {
         data: { data: skills },
-      } = await axios.delete(`/profile/skills/${getUserId()}`, {
+      } = await axios.delete(`/profile/skills/${getUserInfo().userId}`, {
         data: { id },
         headers: { Authorization: localStorage.getItem("token") },
       });

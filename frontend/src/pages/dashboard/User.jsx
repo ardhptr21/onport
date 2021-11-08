@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useLocation } from "react-router";
 
 import SquareLogo from "../../assets/image/SquareLogo.svg";
-import getUserId from "../../utils/getUserId";
+import getUserInfo from "../../utils/getUserInfo";
 import DashboardTitle from "../../components/DashboardTitle";
 
 const User = () => {
@@ -36,7 +36,7 @@ const User = () => {
       try {
         const {
           data: { data: user },
-        } = await axiosInstance.get(`/user/${getUserId()}`, { signal: ac.signal });
+        } = await axiosInstance.get(`/user/${getUserInfo().userId}`, { signal: ac.signal });
         user.photo && setPhoto(user.photo);
         user.name && setName(user.name);
         user.position && setPosition(user.position);
@@ -74,7 +74,7 @@ const User = () => {
         const {
           data: { data: user },
         } = await axiosInstance.put(
-          `/user/${getUserId()}`,
+          `/user/${getUserInfo().userId}`,
           { name, position, about, photo: url },
           { headers: { Authorization: localStorage.getItem("token") } }
         );

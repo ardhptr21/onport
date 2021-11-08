@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/image/Logo.svg";
 import ButtonFill from "./ButtonFill";
 import getRoutesName from "../utils/getRouteName";
-import getUserId from "../utils/getUserId";
+import getUserInfo from "../utils/getUserInfo";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import UserNav from "./UserNav";
@@ -13,12 +13,12 @@ const Navbar = () => {
   const [scale, setScale] = useState("scale-0");
 
   useEffect(() => {
-    if (getUserId()) {
+    if (getUserInfo()) {
       (async () => {
         try {
           const {
             data: { data: user },
-          } = await axios.get(`/user/${getUserId()}`);
+          } = await axios.get(`/user/${getUserInfo().userId}`);
           setUser(user);
         } catch (err) {
           console.error(err);
@@ -66,7 +66,7 @@ const Navbar = () => {
         </button>
 
         {/* not authenticated */}
-        {!getUserId() && (
+        {!getUserInfo() && (
           <>
             <Link to={getRoutesName("login").path}>
               <ButtonFill>Login</ButtonFill>
@@ -77,7 +77,7 @@ const Navbar = () => {
           </>
         )}
 
-        {getUserId() && (
+        {getUserInfo() && (
           <div className="md:hidden flex justify-center items-center flex-col gap-5">
             <Link className="text-lg font-medium hover:underline" to={getRoutesName("user").path}>
               User
@@ -90,7 +90,7 @@ const Navbar = () => {
             </Link>
             <Link
               className="text-lg font-medium hover:underline"
-              to={getRoutesName("projects", { id: getUserId() }).path}
+              to={getRoutesName("projects", { id: getUserInfo().userId }).path}
             >
               Your Portfolio
             </Link>
@@ -101,7 +101,7 @@ const Navbar = () => {
         )}
 
         {/* authenticated */}
-        {getUserId() && <UserNav name={user.name} photo={user.photo} />}
+        {getUserInfo() && <UserNav name={user.name} photo={user.photo} />}
       </div>
     </nav>
   );
