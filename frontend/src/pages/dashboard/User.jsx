@@ -18,6 +18,7 @@ const User = () => {
   const location = useLocation();
   const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [position, setPosition] = useState("");
   const [about, setAbout] = useState("");
   const [preview, setPreview] = useState("");
@@ -39,6 +40,7 @@ const User = () => {
         } = await axiosInstance.get(`/user/${getUserInfo().userId}`, { signal: ac.signal });
         user.photo && setPhoto(user.photo);
         user.name && setName(user.name);
+        user.username && setUsername(user.username);
         user.position && setPosition(user.position);
         user.about && setAbout(user.about);
       } catch (err) {
@@ -75,11 +77,12 @@ const User = () => {
           data: { data: user },
         } = await axiosInstance.put(
           `/user/${getUserInfo().userId}`,
-          { name, position, about, photo: url },
+          { name, username, position, about, photo: url },
           { headers: { Authorization: localStorage.getItem("token") } }
         );
         user.photo && setPhoto(user.photo);
         user.name && setName(user.name);
+        user.username && setUsername(user.username);
         user.position && setPosition(user.position);
         user.about && setAbout(user.about);
 
@@ -151,6 +154,15 @@ const User = () => {
               onChange={(e) => setName(e.target.value)}
               error={error.name}
               value={name}
+              required
+            />
+            <Input
+              type="text"
+              placeholder="Username"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+              error={error.username}
+              value={username}
               required
             />
             <Input

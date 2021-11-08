@@ -2,6 +2,7 @@ const { request, response } = require("express");
 const { isValidObjectId } = require("mongoose");
 const Profile = require("../models/Profile");
 const { v4: uuid4 } = require("uuid");
+const User = require("../models/User");
 
 /**
  *  Handle request to get all profile with spesific user
@@ -16,17 +17,18 @@ module.exports.getAll = async (req, res) => {
   try {
     let profile = null;
 
-    if (isValidObjectId(search)) {
+    if (search.match(/^[0-9a-fA-F]{24}$/)) {
       profile = await Profile.findOne({ _userId: search });
     } else {
-      profile = await Profile.findOne({ username: search });
+      let user = await User.findOne({ username: search });
+      profile = await Profile.findOne({ _userId: user?._id });
     }
 
     // check if profile is null
     if (!profile)
       return res
         .status(404)
-        .json({ status: 404, success: false, message: `Profile with user id ${_userId} is not found` });
+        .json({ status: 404, success: false, message: `Profile with user id/username ${search} is not found` });
 
     res.status(200).json({ status: 200, success: true, data: profile });
   } catch (err) {

@@ -14,7 +14,7 @@ module.exports.get = async (req, res) => {
 
   try {
     let user = null;
-    if (isValidObjectId(search)) {
+    if (search.match(/^[0-9a-fA-F]{24}$/)) {
       user = await User.findById(search);
     } else {
       user = await User.findOne({ username: search });

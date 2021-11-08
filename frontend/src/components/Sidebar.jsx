@@ -1,9 +1,33 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import LogoWhite from "../assets/image/LogoWhite.svg";
+import useAxios from "../hooks/useAxios";
 import getUserInfo from "../utils/getUserInfo";
 import LinkSidebar from "./LinkSidebar";
 
 const Sidebar = () => {
+  const [isRedirect, setIsRedirect] = useState(false);
+  const [username, setUsername] = useState("");
+  const axios = useAxios();
+
+  const handlePortfolioLinkClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      const {
+        data: { data: user },
+      } = await axios.get(`/user/${getUserInfo().userId}`);
+      setUsername(user.username);
+      setIsRedirect(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  if (isRedirect) {
+    return <Redirect to={`/portfolio/${username}`} />;
+  }
+
   return (
     <>
       <div className="w-64 h-screen hidden md:block"></div>
@@ -42,7 +66,12 @@ const Sidebar = () => {
               <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
             </svg>
           </LinkSidebar>
-          <LinkSidebar text="Your Portfolio" route="portfolio" params={{ query: getUserInfo()?.username }}>
+          <LinkSidebar
+            text="Your Portfolio"
+            route="portfolio"
+            params={{ query: getUserInfo()?.username }}
+            click={handlePortfolioLinkClick}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"

@@ -8,6 +8,7 @@ import useAxios from "../hooks/useAxios";
 
 const Register = () => {
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -29,7 +30,7 @@ const Register = () => {
     try {
       const {
         data: { data },
-      } = await axios.post("/user", { name, email, password });
+      } = await axios.post("/user", { name, username, email, password });
       setUserId(data.id);
       setRedirect(true);
     } catch ({ response }) {
@@ -40,7 +41,7 @@ const Register = () => {
   if (redirect) return <Redirect to={getRouteName("send-verify", { id: userId }).path} />;
 
   return (
-    <section className="h-screen flex flex-col p-5 justify-center items-center">
+    <section className="h-screen flex flex-col p-5 my-10 justify-center items-center">
       <img src={Logo} alt="Onport Logo" className="w-36 mb-6" />
       <form className="sm:w-96 w-full bg-primary p-10" onSubmit={handleSubmit} autoComplete="off" spellCheck="false">
         <h1 className="text-white sm:text-4xl text-3xl mb-6 font-bold uppercase font-encode-sans text-center">
@@ -59,6 +60,13 @@ const Register = () => {
           name="email"
           error={error.email}
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="email"
+          placeholder="Username"
+          name="username"
+          error={error.username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <Input
           type="password"
