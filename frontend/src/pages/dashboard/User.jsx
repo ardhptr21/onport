@@ -12,6 +12,7 @@ import { useLocation } from "react-router";
 import SquareLogo from "../../assets/image/SquareLogo.svg";
 import getUserInfo from "../../utils/getUserInfo";
 import DashboardTitle from "../../components/DashboardTitle";
+import LoadingDark from "../../components/loading/LoadingDark";
 
 const User = () => {
   const axiosInstance = useAxios();
@@ -24,6 +25,8 @@ const User = () => {
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState({});
+  const [isLoading, setisLoading] = useState(true);
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
 
   useEffect(() => {
     if (location.state?.emit) {
@@ -45,6 +48,8 @@ const User = () => {
         user.about && setAbout(user.about);
       } catch (err) {
         !ac.signal.aborted && console.error(err.message);
+      } finally {
+        setTimeout(() => setisLoading(false), 1000);
       }
     })();
 
@@ -65,7 +70,8 @@ const User = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setError({});
+    setIsBtnLoading(true);
     (async () => {
       let url = null;
       if (file) {
@@ -90,6 +96,8 @@ const User = () => {
       } catch ({ response }) {
         response.data.error && setError(response.data.error);
         toast.error("Ooops! can't update user info");
+      } finally {
+        setIsBtnLoading(false);
       }
     })();
 
@@ -120,71 +128,77 @@ const User = () => {
   };
 
   return (
-    <section className="flex py-6">
+    <section className="flex">
       <Sidebar />
-      <div className="flex justify-center py-10 md:px-0 px-5 items-center flex-col w-full">
-        <DashboardTitle text="User">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12 inline"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
-          </svg>
-        </DashboardTitle>
-        <img
-          src={preview || photo || SquareLogo}
-          alt="people profile"
-          className="rounded-full w-52 border-4 border-primary object-cover"
-        />
-        <form className="w-full" autoComplete="off" onSubmit={handleSubmit}>
-          <InputFile text="Change Image" name="photo" onChange={handleChangePreview} />
-          <div className="w-full md:w-3/4 m-auto bg-primary p-10">
-            <Input
-              type="text"
-              placeholder="Name"
-              name="name"
-              onChange={(e) => setName(e.target.value)}
-              error={error.name}
-              value={name}
-              required
-            />
-            <Input
-              type="text"
-              placeholder="Username"
-              name="username"
-              onChange={(e) => setUsername(e.target.value)}
-              error={error.username}
-              value={username}
-              required
-            />
-            <Input
-              type="text"
-              placeholder="Position/Job"
-              name="position"
-              onChange={(e) => setPosition(e.target.value)}
-              value={position}
-              error={error.position}
-            />
-            <Textarea
-              name="about"
-              placeholder="About"
-              rows="10"
-              onChange={(e) => setAbout(e.target.value)}
-              value={about}
-              error={error.about}
-            ></Textarea>
-            <ButtonForm type="submit">Save</ButtonForm>
-          </div>
-        </form>
-      </div>
+      {isLoading ? (
+        <LoadingDark />
+      ) : (
+        <div className="flex justify-center py-10 md:px-0 px-5 items-center flex-col w-full">
+          <DashboardTitle text="User">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-12 w-12 inline"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+          </DashboardTitle>
+          <img
+            src={preview || photo || SquareLogo}
+            alt="people profile"
+            className="rounded-full w-52 border-4 border-primary object-cover"
+          />
+          <form className="w-full" autoComplete="off" onSubmit={handleSubmit}>
+            <InputFile text="Change Image" name="photo" onChange={handleChangePreview} />
+            <div className="w-full md:w-3/4 m-auto bg-primary p-10">
+              <Input
+                type="text"
+                placeholder="Name"
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+                error={error.name}
+                value={name}
+                required
+              />
+              <Input
+                type="text"
+                placeholder="Username"
+                name="username"
+                onChange={(e) => setUsername(e.target.value)}
+                error={error.username}
+                value={username}
+                required
+              />
+              <Input
+                type="text"
+                placeholder="Position/Job"
+                name="position"
+                onChange={(e) => setPosition(e.target.value)}
+                value={position}
+                error={error.position}
+              />
+              <Textarea
+                name="about"
+                placeholder="About"
+                rows="10"
+                onChange={(e) => setAbout(e.target.value)}
+                value={about}
+                error={error.about}
+              ></Textarea>
+              <ButtonForm type="submit" loading={isBtnLoading}>
+                Save
+              </ButtonForm>
+            </div>
+          </form>
+        </div>
+      )}
     </section>
   );
 };

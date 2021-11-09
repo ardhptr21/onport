@@ -1,4 +1,15 @@
-const ButtonForm = ({ children, ...props }) => {
+import { useEffect } from "react";
+import LoadingBtnWhite from "./loading/LoadingBtnWhite";
+
+const ButtonForm = ({ children, loading = false, ...props }) => {
+  useEffect(() => {
+    if (loading) {
+      document.getElementById("btn-form").disabled = true;
+    } else {
+      document.getElementById("btn-form").disabled = false;
+    }
+  }, [loading]);
+
   return (
     <button
       {...props}
@@ -10,11 +21,15 @@ const ButtonForm = ({ children, ...props }) => {
               mt-3
               uppercase
               font-bold
+              disabled:bg-blue-900
+              disabled:cursor-default
               hover:bg-gradient-to-r from-blue-500 to-blue-700
+              disabled:pointer-events-none
               hover:text-white
               "
+      id="btn-form"
     >
-      {children}
+      {loading ? <LoadingBtnWhite /> : children}
     </button>
   );
 };

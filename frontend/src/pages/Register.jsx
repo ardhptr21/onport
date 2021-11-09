@@ -15,12 +15,14 @@ const Register = () => {
   const [redirect, setRedirect] = useState(false);
   const [error, setError] = useState({});
   const [userId, setUserId] = useState(null);
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
 
   const axios = useAxios();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError({});
+    setIsBtnLoading(true);
 
     if (password !== password2 && password !== "") {
       setError({ ...error, confirmMessage: "The confirm password does not match" });
@@ -35,6 +37,8 @@ const Register = () => {
       setRedirect(true);
     } catch ({ response }) {
       setError(response.data.error);
+    } finally {
+      setIsBtnLoading(false);
     }
   };
 
@@ -82,7 +86,9 @@ const Register = () => {
           error={error.confirmMessage}
           onChange={(e) => setPassword2(e.target.value)}
         />
-        <ButtonForm type="submit">Register</ButtonForm>
+        <ButtonForm type="submit" loading={isBtnLoading}>
+          Register
+        </ButtonForm>
         <Link to={getRouteName("login").path} className="text-white text-xs hover:underline">
           Already have an account? Please login
         </Link>

@@ -24,6 +24,8 @@ module.exports = {
       backgroundImage: ["hover"],
       backgroundColor: ["disabled"],
       textColor: ["disabled"],
+      cursor: ["disabled"],
+      pointerEvents: ["disabled"],
     },
   },
   plugins: [],

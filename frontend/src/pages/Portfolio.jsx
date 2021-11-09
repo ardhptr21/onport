@@ -5,6 +5,7 @@ import LogoWhite from "../assets/image/LogoWhite.svg";
 import SquareLogo from "../assets/image/SquareLogo.svg";
 import { Link, Redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
+import LoadingDark from "../components/loading/LoadingDark";
 import useAxios from "../hooks/useAxios";
 import { useParams } from "react-router-dom";
 
@@ -15,6 +16,7 @@ const Portfolio = () => {
   const [user, setUser] = useState({});
   const [profile, setProfile] = useState({});
   const [redirect, setRedirect] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -30,6 +32,8 @@ const Portfolio = () => {
         setProfile(profile);
       } catch ({ response }) {
         !response.data.success && setRedirect(true);
+      } finally {
+        setIsLoading(false);
       }
     })();
 
@@ -37,6 +41,8 @@ const Portfolio = () => {
   }, []);
 
   if (redirect) return <Redirect to="/" />;
+
+  if (isLoading) return <LoadingDark />;
 
   return (
     <>

@@ -1,4 +1,4 @@
-const ButtonOutline = ({ children, ...props }) => {
+const ButtonFill = ({ children, ...props }) => {
   return (
     <button
       {...props}
@@ -19,4 +19,4 @@ const ButtonOutline = ({ children, ...props }) => {
   );
 };
 
-export default ButtonOutline;
+export default ButtonFill;

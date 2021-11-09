@@ -16,6 +16,7 @@ const Login = () => {
   const [redirect, setRedirect] = useState(false);
   const [isUnverified, setIsUnverified] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
 
   const axios = useAxios();
 
@@ -23,6 +24,7 @@ const Login = () => {
     e.preventDefault();
     setError({});
     setMessage("");
+    setIsBtnLoading(true);
 
     try {
       const {
@@ -39,6 +41,8 @@ const Login = () => {
         setIsUnverified(true);
         setUserId(response.data.id);
       }
+    } finally {
+      setIsBtnLoading(false);
     }
   };
 
@@ -97,7 +101,9 @@ const Login = () => {
             )}
           </p>
         )}
-        <ButtonForm type="submit">Login</ButtonForm>
+        <ButtonForm type="submit" loading={isBtnLoading}>
+          Login
+        </ButtonForm>
         <Link to={getRouteName("register").path} className="text-white text-xs hover:underline">
           Don't have an account? Please register
         </Link>
