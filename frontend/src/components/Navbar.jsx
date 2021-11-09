@@ -101,7 +101,7 @@ const Navbar = () => {
         )}
 
         {/* authenticated */}
-        {getUserInfo() && <UserNav name={user.name} photo={user.photo} />}
+        {getUserInfo() && <UserNav name={user.name} photo={user.photo} username={user.username} />}
       </div>
     </nav>
   );

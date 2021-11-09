@@ -2,7 +2,7 @@ import { useState } from "react";
 import SquareLogo from "../assets/image/SquareLogo.svg";
 import UserDropdown from "./UserDropdown";
 
-const UserNav = ({ photo, name }) => {
+const UserNav = ({ photo, name, username }) => {
   const [isDropdown, setIsDropdown] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ const UserNav = ({ photo, name }) => {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
       </svg>
 
-      <UserDropdown on={isDropdown} />
+      <UserDropdown on={isDropdown} username={username} />
     </div>
   );
 };
