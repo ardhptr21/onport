@@ -1,7 +1,7 @@
 const ToggleSidebar = ({ setIsToggle, isToggle }) => {
   return (
     <div
-      className="fixed bottom-5 right-5 flex justify-center items-center bg-gray-700 shadow-inner h-14 w-14 rounded-full text-white md:hidden select-none"
+      className="fixed bottom-5 right-5 flex justify-center items-center bg-gray-500 shadow-inner h-14 w-14 rounded-full text-white md:hidden select-none z-50"
       onClick={() => setIsToggle(!isToggle)}
     >
       {isToggle ? (

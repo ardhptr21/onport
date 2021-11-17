@@ -1,7 +1,6 @@
 import ButtonOutline from "../components/buttons/ButtonOutline";
 import { Link } from "react-router-dom";
 import getRouteName from "../utils/getRouteName";
-import getUserInfo from "../utils/getUserInfo";
 import FeatureCard from "../components/cards/FeatureCard";
 import LogoCreatedWhite from "../assets/image/LogoCreatedWhite.svg";
 
@@ -13,16 +12,12 @@ const Home = () => {
           Build Your Own <br /> Online Portfolio
         </h1>
         <Link to={getRouteName("login").path}>
-          <ButtonOutline>{getUserInfo() ? "GO TO DASHBOARD" : "LET'S MAKE NOW"} </ButtonOutline>
+          <ButtonOutline>LET'S MAKE NOW</ButtonOutline>
         </Link>
-        {!getUserInfo() && (
-          <>
-            <p className="text-xs mt-3 mb-1">OR</p>
-            <Link to={process.env.REACT_APP_DEMO_PROJECT} className="underline text-sm hover:font-bold duration-200">
-              SEE DEMO HERE
-            </Link>
-          </>
-        )}
+        <p className="text-xs mt-3 mb-1">OR</p>
+        <Link to={process.env.REACT_APP_DEMO_PROJECT} className="underline text-sm hover:font-bold duration-200">
+          SEE DEMO HERE
+        </Link>
       </div>
 
       <FeatureCard
