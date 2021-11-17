@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import ButtonForm from "../../components/ButtonForm";
-import Input from "../../components/Input";
-import InputFile from "../../components/InputFile";
-import Sidebar from "../../components/Sidebar";
-import Textarea from "../../components/Textarea";
+import ButtonForm from "../../components/buttons/ButtonForm";
+import Input from "../../components/forms/Input";
+import InputFile from "../../components/forms/InputFile";
+import Sidebar from "../../components/navigations/Sidebar";
+import Textarea from "../../components/forms/Textarea";
 import useAxios from "../../hooks/useAxios";
 import axios from "axios";
 import { toast } from "react-toastify";

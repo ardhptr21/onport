@@ -1,8 +1,8 @@
-import ButtonOutline from "../components/ButtonOutline";
+import ButtonOutline from "../components/buttons/ButtonOutline";
 import { Link } from "react-router-dom";
 import getRouteName from "../utils/getRouteName";
 import getUserInfo from "../utils/getUserInfo";
-import FeatureCard from "../components/FeatureCard";
+import FeatureCard from "../components/cards/FeatureCard";
 import LogoCreatedWhite from "../assets/image/LogoCreatedWhite.svg";
 
 const Home = () => {

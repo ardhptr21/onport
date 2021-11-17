@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import LoadingBtnWhite from "./loading/LoadingBtnWhite";
+import LoadingBtnWhite from "../loading/LoadingBtnWhite";
 
 const ButtonForm = ({ children, loading = false, ...props }) => {
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import getActiveURL from "../utils/getActiveURL";
-import getRoutesName from "../utils/getRouteName";
+import getActiveURL from "../../utils/getActiveURL";
+import getRoutesName from "../../utils/getRouteName";
 
 const LinkSidebar = ({ children, text, route, params, click }) => {
   return (

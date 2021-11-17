@@ -1,5 +1,5 @@
-import ButtonDelete from "./ButtonDelete";
-import ButtonEdit from "./ButtonEdit";
+import ButtonDelete from "../buttons/ButtonDelete";
+import ButtonEdit from "../buttons/ButtonEdit";
 import Td from "./Td";
 import Tr from "./Tr";
 

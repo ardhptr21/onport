@@ -1,6 +1,6 @@
 import { Link, Redirect } from "react-router-dom";
-import ButtonForm from "../components/ButtonForm";
-import Input from "../components/Input";
+import ButtonForm from "../components/buttons/ButtonForm";
+import Input from "../components/forms/Input";
 import getRouteName from "../utils/getRouteName";
 import Logo from "../assets/image/Logo.svg";
 import { useState } from "react";

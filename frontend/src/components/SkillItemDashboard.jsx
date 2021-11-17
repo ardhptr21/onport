@@ -1,5 +1,5 @@
-import ButtonEdit from "../components/ButtonEdit";
-import ButtonDelete from "../components/ButtonDelete";
+import ButtonEdit from "../components/buttons/ButtonEdit";
+import ButtonDelete from "../components/buttons/ButtonDelete";
 
 const SkillItemDashboard = ({ name, skillId, clickEdit, clickDelete }) => {
   return (

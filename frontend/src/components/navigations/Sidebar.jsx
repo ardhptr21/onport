@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import LogoWhite from "../assets/image/LogoWhite.svg";
-import useAxios from "../hooks/useAxios";
-import getUserInfo from "../utils/getUserInfo";
-import LinkSidebar from "./LinkSidebar";
+import LogoWhite from "../../assets/image/LogoWhite.svg";
+import useAxios from "../../hooks/useAxios";
+import getUserInfo from "../../utils/getUserInfo";
+import LinkSidebar from "../links/LinkSidebar";
 import ToggleSidebar from "./ToggleSidebar";
 
 const Sidebar = () => {

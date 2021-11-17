@@ -1,12 +1,12 @@
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/navigations/Sidebar";
 import SkillItemDashboard from "../../components/SkillItemDashboard";
-import ButtonAdd from "../../components/ButtonAdd";
+import ButtonAdd from "../../components/buttons/ButtonAdd";
 import DashboardTitle from "../../components/DashboardTitle";
 import { useEffect, useState } from "react";
-import AlertDanger from "../../components/AlertDanger";
+import AlertDanger from "../../components/alerts/AlertDanger";
 import useAxios from "../../hooks/useAxios";
 import getUserInfo from "../../utils/getUserInfo";
-import ButtonCancel from "../../components/ButtonCancel";
+import ButtonCancel from "../../components/buttons/ButtonCancel";
 import { toast } from "react-toastify";
 import LoadingDark from "../../components/loading/LoadingDark";
 

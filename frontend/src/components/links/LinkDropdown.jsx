@@ -1,4 +1,4 @@
-import getRouteName from "../utils/getRouteName";
+import getRouteName from "../../utils/getRouteName";
 import { Link } from "react-router-dom";
 
 const LinkDropdown = ({ route, text, children, params }) => {

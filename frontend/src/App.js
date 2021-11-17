@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navigations/Navbar";
 import routes from "./routes";
 import "react-toastify/dist/ReactToastify.min.css";
 

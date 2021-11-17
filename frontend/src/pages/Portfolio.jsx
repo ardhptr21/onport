@@ -1,6 +1,6 @@
 import PortfolioSection from "../components/PortfolioSection";
 import SkillItem from "../components/SkillItem";
-import CardProject from "../components/CardProject";
+import CardProject from "../components/cards/CardProject";
 import LogoWhite from "../assets/image/LogoWhite.svg";
 import SquareLogo from "../assets/image/SquareLogo.svg";
 import { Link, Redirect } from "react-router-dom";

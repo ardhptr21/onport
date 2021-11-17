@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import Logo from "../assets/image/Logo.svg";
-import ButtonFill from "./ButtonFill";
-import getRoutesName from "../utils/getRouteName";
+import Logo from "../../assets/image/Logo.svg";
+import ButtonFill from "../buttons/ButtonFill";
+import getRoutesName from "../../utils/getRouteName";
 import { useState } from "react";
 
 const Navbar = () => {
