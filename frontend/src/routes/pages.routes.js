@@ -1,6 +1,7 @@
 import Home from "../pages/Home";
 import Portfolio from "../pages/Portfolio";
 import setTopUrl from "../utils/setTopUrl";
+import setGuestComp from "../utils/setGuestComp";
 
 const TOP_URL = "/";
 
@@ -11,6 +12,7 @@ const pagesRoutes = [
     exact: true,
     component: Home,
     useNavbar: true,
+    guest: true,
   },
   {
     name: "portfolio",
@@ -20,4 +22,4 @@ const pagesRoutes = [
   },
 ];
 
-export default setTopUrl(pagesRoutes, TOP_URL);
+export default setGuestComp(setTopUrl(pagesRoutes, TOP_URL));

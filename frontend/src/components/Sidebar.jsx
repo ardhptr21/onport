@@ -4,10 +4,12 @@ import LogoWhite from "../assets/image/LogoWhite.svg";
 import useAxios from "../hooks/useAxios";
 import getUserInfo from "../utils/getUserInfo";
 import LinkSidebar from "./LinkSidebar";
+import ToggleSidebar from "./ToggleSidebar";
 
 const Sidebar = () => {
   const [isRedirect, setIsRedirect] = useState(false);
   const [username, setUsername] = useState("");
+  const [isToggle, setIsToggle] = useState(false);
   const axios = useAxios();
 
   const handlePortfolioLinkClick = async (e) => {
@@ -31,11 +33,16 @@ const Sidebar = () => {
   return (
     <>
       <div className="w-64 h-screen hidden md:block"></div>
-      <div className="md:w-64 w-screen md:h-screen bg-primary fixed md:top-0 z-50 md:bottom-auto bottom-0 left-0">
-        <Link className="flex items-center justify-center" to="/">
-          <img className="h-8 mt-10 hidden md:block" src={LogoWhite} alt="White Logo ONPORT" />
-        </Link>
-        <nav className="md:mt-10 md:block flex justify-center items-center">
+      <ToggleSidebar setIsToggle={setIsToggle} isToggle={isToggle} />
+      <div
+        className={`w-64 h-screen bg-primary fixed z-50 transform md:transform-none transition duration-500 ${
+          isToggle ? "" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-center">
+          <img className="h-8 mt-10 block" src={LogoWhite} alt="White Logo ONPORT" />
+        </div>
+        <nav className="mt-10">
           <LinkSidebar text="User" route="user">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +94,26 @@ const Sidebar = () => {
               />
             </svg>
           </LinkSidebar>
+          <Link
+            to="/auth/logout"
+            className="flex justify-center text-white hover:text-gray-300 items-center gap-2 cursor-pointer select-none absolute bottom-10 left-10"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            <p className="font-bold">Logout</p>
+          </Link>
         </nav>
       </div>
     </>

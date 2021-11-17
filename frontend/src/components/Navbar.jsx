@@ -2,32 +2,10 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/image/Logo.svg";
 import ButtonFill from "./ButtonFill";
 import getRoutesName from "../utils/getRouteName";
-import getUserInfo from "../utils/getUserInfo";
-import { useEffect, useState } from "react";
-import useAxios from "../hooks/useAxios";
-import UserNav from "./UserNav";
+import { useState } from "react";
 
 const Navbar = () => {
-  const axios = useAxios();
-  const [user, setUser] = useState({});
   const [scale, setScale] = useState("scale-0");
-
-  useEffect(() => {
-    if (getUserInfo()) {
-      (async () => {
-        try {
-          const {
-            data: { data: user },
-          } = await axios.get(`/user/${getUserInfo().userId}`);
-          setUser(user);
-        } catch (err) {
-          console.error(err);
-        }
-      })();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <nav className="flex items-center justify-between px-10 py-8 fixed top-0 w-full bg-white z-50 border-b-2 border-primary">
@@ -65,43 +43,12 @@ const Navbar = () => {
           </svg>
         </button>
 
-        {/* not authenticated */}
-        {!getUserInfo() && (
-          <>
-            <Link to={getRoutesName("login").path}>
-              <ButtonFill>Login</ButtonFill>
-            </Link>
-            <Link to={getRoutesName("register").path}>
-              <ButtonFill>Register</ButtonFill>
-            </Link>
-          </>
-        )}
-
-        {getUserInfo() && (
-          <div className="md:hidden flex justify-center items-center flex-col gap-5">
-            <Link className="text-lg font-medium hover:underline" to={getRoutesName("user").path}>
-              User
-            </Link>
-            <Link className="text-lg font-medium hover:underline" to={getRoutesName("skills").path}>
-              Skills
-            </Link>
-            <Link className="text-lg font-medium hover:underline" to={getRoutesName("projects").path}>
-              Projects
-            </Link>
-            <Link
-              className="text-lg font-medium hover:underline"
-              to={getRoutesName("projects", { id: getUserInfo().userId }).path}
-            >
-              Your Portfolio
-            </Link>
-            <Link className="text-lg font-medium hover:underline" to={getRoutesName("logout").path}>
-              Logout
-            </Link>
-          </div>
-        )}
-
-        {/* authenticated */}
-        {getUserInfo() && <UserNav name={user.name} photo={user.photo} username={user.username} />}
+        <Link to={getRoutesName("login").path}>
+          <ButtonFill>Login</ButtonFill>
+        </Link>
+        <Link to={getRoutesName("register").path}>
+          <ButtonFill>Register</ButtonFill>
+        </Link>
       </div>
     </nav>
   );

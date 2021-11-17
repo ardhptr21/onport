@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 .sidebar-link {
-  @apply flex md:justify-start justify-center items-center w-full md:mt-5 py-2 px-8 text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100;
+  @apply flex justify-start items-center w-full mt-5 py-2 px-8 text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100;
 }
 
 .sidebar-link.active {
